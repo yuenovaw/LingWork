@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="panel">
+    <view class="title">协议与隐私政策</view>
+    <scroll-view class="tabs" scroll-x>
+      <view
+        wx:for="{{agreements}}"
+        wx:key="id"
+        class="tab {{selectedAgreementId === item.id ? 'active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="switchAgreement"
+      >{{item.title}}</view>
+    </scroll-view>
+    <scroll-view class="content" scroll-y>
+      <view class="doc-title">《{{agreement.title}}》</view>
+      <view wx:for="{{agreement.paragraphs}}" wx:key="index" class="p">{{item}}</view>
+    </scroll-view>
+
+    <view class="agree-line" bindtap="toggleAgree">
+      <view class="check {{agreed ? 'checked' : ''}}">{{agreed ? '✓' : ''}}</view>
+      <view>我已阅读并同意全部协议与隐私政策{{canAgree ? '' : '（' + seconds + '秒）'}}</view>
+    </view>
+  </view>
+
+  <button class="next-btn {{(agreed || preview) ? 'enabled' : ''}}" bindtap="continueRegister">
+    {{preview ? '返回' : '继续'}}
+  </button>
+</view>

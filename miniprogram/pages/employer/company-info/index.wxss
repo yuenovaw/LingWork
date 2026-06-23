@@ -1,0 +1,54 @@
+.info-page {
+  min-height: 100vh;
+  background: #F7FCF9;
+  padding: 16px;
+}
+
+.page-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 16px;
+}
+
+.info-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.info-value {
+  font-size: 15px;
+  color: #1F2937;
+}
+
+.tip-box {
+  background: #f1faf4;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.tip-text {
+  font-size: 14px;
+  color: #3f8b62;
+  line-height: 1.5;
+}

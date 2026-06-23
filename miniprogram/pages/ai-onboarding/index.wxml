@@ -1,0 +1,148 @@
+<view class="voice-page">
+  <view class="topbar">
+    <button class="top-icon" bindtap="skipOnboarding">×</button>
+    <view class="scene-pill">
+      <text class="scene-dot"></text>
+      <text>语音登记</text>
+    </view>
+    <button class="text-mode" bindtap="toggleKeyboard">字</button>
+  </view>
+
+  <view class="stage {{recording || thinking || speaking ? 'active' : ''}} {{recording ? 'recording' : ''}} {{speaking ? 'speaking' : ''}}">
+    <view wx:if="{{!completed}}" class="dialog-zone">
+      <scroll-view
+        class="transcript-card"
+        scroll-y
+        scroll-into-view="{{scrollIntoView}}"
+        scroll-with-animation
+        show-scrollbar="{{false}}"
+      >
+        <view class="transcript-inner">
+          <view
+            wx:for="{{messages}}"
+            wx:key="id"
+            id="{{item.id}}"
+            class="line {{item.role === 'user' ? 'user' : 'ai'}}"
+          >
+            <text class="line-text">{{item.text}}</text>
+          </view>
+
+          <view wx:if="{{thinking}}" class="line ai thinking-line" id="thinking-line">
+            <text class="line-text">{{recognizing ? '正在识别您说的话...' : '正在整理，请稍等...'}}</text>
+          </view>
+
+          <view id="transcript-bottom" class="transcript-anchor"></view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <view class="assistant-orb-wrap">
+      <view class="assistant-orb">
+        <canvas
+          id="siriOrbCanvas"
+          type="2d"
+          class="orb-canvas"
+        ></canvas>
+      </view>
+      <view class="orb-ring ring-one"></view>
+      <view class="orb-ring ring-two"></view>
+    </view>
+
+    <view class="main-status" wx:if="{{recording}}">我在听您说</view>
+    <view class="main-status" wx:elif="{{recognizing}}">正在听写成文字</view>
+    <view class="main-status" wx:elif="{{thinking}}">正在整理资料</view>
+    <view class="main-status" wx:elif="{{speaking}}">正在播报回复</view>
+    <view class="main-status" wx:else>像打电话一样说</view>
+    <view class="sub-status">{{progressText}}</view>
+
+    <view class="status-dots {{recording || speaking || thinking ? 'active' : ''}}">
+      <view></view><view></view><view></view><view></view>
+    </view>
+  </view>
+
+  <view wx:if="{{!completed}}" class="quick-zone">
+    <view class="quick-say" bindtap="useQuickReply" data-text="我62岁，想在南京鼓楼附近找门卫，上午有空">
+      <text class="quick-title">不会说？点一句试试</text>
+      <text class="quick-text">我62岁，想在南京鼓楼附近找门卫，上午有空</text>
+    </view>
+  </view>
+
+  <scroll-view wx:if="{{completed}}" class="summary-panel" scroll-y>
+    <view class="summary">
+      <view class="summary-title">资料整理好了</view>
+      <view class="summary-subtitle">请您看一下，确认后就能去找工作。</view>
+      <view class="summary-list">
+        <view class="summary-row"><text>称呼</text><text>{{summary.name}}</text></view>
+        <view class="summary-row"><text>年龄</text><text>{{summary.age}}</text></view>
+        <view class="summary-row"><text>地区</text><text>{{summary.city}}</text></view>
+        <view class="summary-row"><text>想找</text><text>{{summary.expectedJobs}}</text></view>
+        <view class="summary-row"><text>时间</text><text>{{summary.availableTime}}</text></view>
+        <view class="summary-row"><text>经验</text><text>{{summary.experience}}</text></view>
+        <view wx:if="{{summary.healthStatus}}" class="summary-row"><text>身体</text><text>{{summary.healthStatus}}</text></view>
+      </view>
+      <view class="resume">{{summary.resumeText}}</view>
+      <view class="safe-note">手机号不会直接公开，只有双方同意后才会展示。</view>
+      <view class="summary-actions">
+        <button bindtap="regenerateSummary">重新整理</button>
+        <button class="primary" bindtap="goJobs">去找工作</button>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="bottom-panel" wx:if="{{!completed}}">
+    <view wx:if="{{showKeyboard}}" class="keyboard-row">
+      <text class="keyboard-icon">字</text>
+      <input
+        class="text-input"
+        value="{{inputText}}"
+        placeholder="输入想说的话"
+        bindinput="onInput"
+        confirm-type="send"
+        bindconfirm="sendText"
+      />
+      <button class="send-btn" bindtap="sendText">发送</button>
+    </view>
+
+    <view wx:if="{{!showKeyboard}}" class="helper-text">
+      <text wx:if="{{recording || recognizing}}">{{voiceStatus}}</text>
+      <text wx:elif="{{speaking}}">{{speechStatus}}</text>
+      <text wx:else>按住中间按钮，说完松开</text>
+    </view>
+
+    <view wx:if="{{!showKeyboard}}" class="control-row">
+      <button class="round-btn" bindtap="toggleSpeaker">
+        <text wx:if="{{speakerEnabled}}" class="round-icon">音</text>
+        <text wx:else class="round-icon">静</text>
+        <text wx:if="{{speakerEnabled}}">静音</text>
+        <text wx:else>播报</text>
+      </button>
+
+      <button
+        class="talk-btn {{recording ? 'recording' : ''}}"
+        bindtouchstart="startRecord"
+        bindtouchend="stopRecord"
+        bindtouchcancel="cancelRecord"
+      >
+        <text class="mic-mark">麦</text>
+        <text wx:if="{{recording}}">松开发送</text>
+        <text wx:else>按住说话</text>
+      </button>
+
+      <button class="round-btn" bindtap="toggleKeyboard">
+        <text class="round-icon">字</text>
+        <text wx:if="{{showKeyboard}}">收起</text>
+        <text wx:else>打字</text>
+      </button>
+    </view>
+
+    <view wx:else class="keyboard-actions">
+      <view class="keyboard-tip">文字输入</view>
+      <button class="keyboard-mode-btn" bindtap="toggleKeyboard">
+        <text class="keyboard-mode-icon">麦</text>
+        <text>切回语音</text>
+      </button>
+    </view>
+
+    <button wx:if="{{!showKeyboard}}" class="hangup-btn" bindtap="skipOnboarding">先不登记，直接找工作</button>
+  </view>
+</view>

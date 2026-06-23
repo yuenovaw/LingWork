@@ -1,0 +1,57 @@
+<view class="page">
+  <view class="profile-card">
+    <view class="avatar">{{displayWorker.name.slice(0, 1)}}</view>
+    <view class="profile-main">
+      <view class="name">{{displayWorker.name}} · {{displayWorker.age}}岁</view>
+      <view class="sub">{{displayWorker.city}}{{displayWorker.district}} · {{role === 'worker' ? '正在找工作' : '雇主身份'}}</view>
+      <view class="verify-badge">{{displayWorker.realNameStatus}}</view>
+      <view wx:if="{{displayWorker.maskedPhone}}" class="phone-line">{{displayWorker.maskedPhone}}</view>
+    </view>
+  </view>
+
+  <view class="action-card primary-card" bindtap="goApplications">
+    <view>
+      <view class="action-title">我的报名</view>
+      <view class="action-desc">查看报名进展、是否可以联系雇主</view>
+    </view>
+    <view class="action-arrow">›</view>
+  </view>
+
+  <view class="action-card ai-card" bindtap="editAiProfile">
+    <view>
+      <view class="action-title">{{aiProfile ? '修改找工资料' : '让 AI 帮我登记'}}</view>
+      <view wx:if="{{aiProfile}}" class="action-desc">已填写：{{aiProfile.expectedJobs || displayWorker.expectedJobs}}</view>
+      <view wx:else class="action-desc">不会写简历也没关系，像聊天一样登记</view>
+    </view>
+    <button catchtap="editAiProfile">{{aiProfile ? '修改' : '去登记'}}</button>
+  </view>
+
+  <view class="safe-card">
+    <view class="safe-title">电话先保护</view>
+    <view class="safe-text">报名后不会马上公开手机号。只有您和雇主都同意后，双方才能看到联系方式。</view>
+  </view>
+
+  <view class="menu">
+    <view class="menu-item" bindtap="switchRole">
+      <view>
+        <view class="menu-title">切换身份</view>
+        <view class="menu-sub">当前：{{role === 'worker' ? '找工者' : '雇主'}}</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="menu-item" bindtap="callService">
+      <view>
+        <view class="menu-title">联系客服</view>
+        <view class="menu-sub">报名、联系、保险问题都可以问</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="menu-item" data-section="all" bindtap="goSettings">
+      <view>
+        <view class="menu-title">设置与隐私</view>
+        <view class="menu-sub">资料、认证、协议和通知</view>
+      </view>
+      <text>›</text>
+    </view>
+  </view>
+</view>

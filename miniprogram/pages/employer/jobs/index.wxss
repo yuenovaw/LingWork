@@ -1,0 +1,161 @@
+/**
+ * 职位页
+ */
+
+.jobs-page {
+  min-height: 100vh;
+  background: #F7FCF9;
+  padding: 16px;
+}
+
+/* 筛选标签 */
+.tabs {
+  display: flex;
+  background: #F3F4F6;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: 15px;
+  color: #6B7280;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: #FFFFFF;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+/* 岗位列表 */
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.job-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.job-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-active {
+  background: #D1FAE5;
+  color: #3f8b62;
+}
+
+.status-closed {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+/* 岗位详情 */
+.job-details {
+  margin-bottom: 16px;
+}
+
+.detail-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.detail-label {
+  width: 60px;
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.detail-value {
+  flex: 1;
+  font-size: 15px;
+  color: #1F2937;
+}
+
+/* 底部操作 */
+.job-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.job-pending {
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.edit-btn {
+  background: #F3F4F6;
+  color: #1F2937;
+}
+
+.close-btn {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.restore-btn {
+  background: #D1FAE5;
+  color: #3f8b62;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  display: block;
+  font-size: 17px;
+  color: #6B7280;
+}

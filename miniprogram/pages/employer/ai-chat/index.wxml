@@ -1,0 +1,41 @@
+<!--AI发布聊天页-->
+<view class="ai-chat-page">
+  <!-- 聊天消息区域 -->
+  <scroll-view class="chat-messages" scroll-y scroll-into-view="msg-{{messages.length-1}}">
+    <view
+      wx:for="{{messages}}"
+      wx:key="index"
+      class="message {{item.role === 'user' ? 'user-msg' : 'ai-msg'}}"
+    >
+      <view class="message-content">{{item.content}}</view>
+    </view>
+    
+    <!-- 加载中 -->
+    <view wx:if="{{isLoading}}" class="message ai-msg">
+      <view class="message-content loading">
+        <text class="loading-text">AI正在思考中</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="chat-input-bar">
+    <view class="input-container">
+      <input
+        class="chat-input"
+        placeholder="描述您想招什么岗位..."
+        value="{{inputContent}}"
+        bindinput="onInput"
+        bindconfirm="onSend"
+      />
+      <view class="send-btn {{inputContent.trim() ? 'active' : ''}}" bindtap="onSend">
+        发送
+      </view>
+    </view>
+  </view>
+
+  <!-- 确认发布按钮 -->
+  <view class="confirm-btn" bindtap="onConfirmJob">
+    确认发布
+  </view>
+</view>

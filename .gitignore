@@ -1,0 +1,38 @@
+.DS_Store
+
+# Local WeChat DevTools settings
+project.private.config.json
+
+# Dependencies and build outputs
+node_modules/
+miniprogram/miniprogram_npm/
+cloudfunctions/**/node_modules/
+cloudfunctions/**/package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local temporary artifacts
+中间产物/
+.cache/
+dist/
+build/
+miniprogram/images/ai-orb/*.gif
+
+# Imported/reference source projects and roadshow materials
+找龄工-小程序/
+雇主端.mp4
+项目说明.txt
+小组成员信息.*
+组员互评*
+
+# Secrets and local environment files
+.env
+.env.*
+!.env.example
+*.local
+
+# Product documents are kept outside the public mini-program repo
+*.docx
+*.pptx
+*.xlsx

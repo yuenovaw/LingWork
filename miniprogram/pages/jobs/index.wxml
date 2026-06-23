@@ -1,0 +1,74 @@
+<view class="page">
+  <view class="top-hero">
+    <view class="header">
+      <view>
+        <view class="hello">{{role === 'worker' ? displayName + '，今天想找什么活？' : '雇主端暂未展开'}}</view>
+        <view class="sub">{{role === 'worker' ? city + ' · 优先显示近处、白天、轻松的工作' : '当前只保留身份入口，后续和雇主端整合'}}</view>
+      </view>
+      <button class="role-btn" bindtap="switchRole">{{role === 'worker' ? '找工者' : '雇主'}}</button>
+    </view>
+
+    <view wx:if="{{role === 'worker'}}" class="guide-card">
+      <view class="guide-steps">
+        <view><text>1</text>看岗位</view>
+        <view><text>2</text>点报名</view>
+        <view><text>3</text>同意后联系</view>
+      </view>
+    </view>
+  </view>
+
+  <block wx:if="{{role === 'worker'}}">
+    <view class="search">
+      <text class="search-icon">⌕</text>
+      <input value="{{keyword}}" placeholder="搜保洁、护工、门卫" bindinput="onSearchInput" />
+    </view>
+
+    <scroll-view class="chips" scroll-x>
+      <view
+        wx:for="{{categories}}"
+        wx:key="*this"
+        class="chip {{activeCategory === item ? 'active' : ''}}"
+        data-name="{{item}}"
+        bindtap="onCategoryTap"
+      >{{item}}</view>
+    </scroll-view>
+
+    <view class="assist-card">
+      <view class="assist-main">
+        <view class="assist-title">电话先保护，资料可代填</view>
+        <view class="assist-text">报名不马上公开手机号；不会写简历也可以让 AI 帮您登记。</view>
+      </view>
+      <button wx:if="{{!profileReady}}" bindtap="startAiOnboarding">AI 登记</button>
+    </view>
+
+    <view class="job-list">
+      <view class="list-title">为您推荐 {{jobs.length}} 个工作</view>
+      <view wx:if="{{jobs.length === 0}}" class="empty">
+        <view class="empty-title">没有找到合适工作</view>
+        <view class="empty-text">换个关键词，或点上面的分类再看看。</view>
+      </view>
+      <view wx:for="{{jobs}}" wx:key="id" class="job-card" bindtap="goDetail" data-id="{{item.id}}">
+        <view class="job-head">
+          <view class="job-title">{{item.title}}</view>
+          <view class="status">招聘中</view>
+        </view>
+        <view class="salary">{{item.salary}}</view>
+        <view class="meta">{{item.location}} · {{item.distance}}</view>
+        <view class="meta">{{item.workTime}}</view>
+        <view class="tags">
+          <text wx:for="{{item.benefits}}" wx:key="*this" class="tag">{{item}}</text>
+        </view>
+        <view class="card-bottom">
+          <text>适合年龄：{{item.ageRequirement}}</text>
+          <button class="detail-btn">查看详情</button>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <view wx:else class="employer-placeholder">
+    <view class="placeholder-title">雇主端留作后续整合</view>
+    <view class="placeholder-text">这里先不做发布岗位、查看报名等功能，避免和合作方重复开发。当前项目重点先打磨找工者体验。</view>
+    <button bindtap="backToWorker">切回找工者</button>
+  </view>
+</view>

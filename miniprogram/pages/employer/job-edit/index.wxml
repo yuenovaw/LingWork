@@ -1,0 +1,71 @@
+<!--岗位编辑页-->
+<view class="job-edit-page">
+  <view class="form-section">
+    <view class="form-item">
+      <text class="label required">岗位名称</text>
+      <input 
+        class="input" 
+        placeholder="如：养老院护工" 
+        value="{{formData.title}}"
+        bindinput="onTitleInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label required">薪资待遇</text>
+      <input 
+        class="input" 
+        placeholder="如：160元/天" 
+        value="{{formData.salary}}"
+        bindinput="onSalaryInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label required">工作地点</text>
+      <input 
+        class="input" 
+        placeholder="如：南京鼓楼区湖南路" 
+        value="{{formData.location}}"
+        bindinput="onLocationInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label required">工作时间</text>
+      <input 
+        class="input" 
+        placeholder="如：8:00-18:00 周一至周五" 
+        value="{{formData.workTime}}"
+        bindinput="onWorkTimeInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label required">招聘人数</text>
+      <input 
+        class="input" 
+        type="number"
+        placeholder="招聘人数" 
+        value="{{formData.recruitCount}}"
+        bindinput="onCountInput"
+      />
+    </view>
+
+    <view class="form-item">
+      <text class="label required">岗位要求</text>
+      <textarea 
+        class="textarea" 
+        placeholder="请描述岗位要求" 
+        value="{{formData.requirements}}"
+        bindinput="onRequirementsInput"
+        maxlength="200"
+      />
+    </view>
+  </view>
+
+  <view class="action-buttons">
+    <view class="btn btn-secondary" bindtap="onCancel">取消</view>
+    <view class="btn btn-primary" bindtap="onSave">保存</view>
+  </view>
+</view>

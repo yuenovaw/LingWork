@@ -1,0 +1,101 @@
+<view class="page">
+  <view class="top-card">
+    <view class="top-title">设置与隐私</view>
+    <view class="top-sub">这里只保留最常用、最重要的设置。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">我的资料</view>
+    <view class="setting-row" data-name="修改基础资料" bindtap="tapItem">
+      <view>
+        <view class="row-title">基础资料</view>
+        <view class="row-sub">{{worker.gender}} · {{worker.age}}岁 · {{worker.city}}{{worker.district}}</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-row" data-name="修改手机号" bindtap="tapItem">
+      <view>
+        <view class="row-title">手机号</view>
+        <view class="row-sub">{{worker.maskedPhone}}</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-row" data-name="查看实名认证" bindtap="tapItem">
+      <view>
+        <view class="row-title">实名认证</view>
+        <view class="row-sub">{{worker.realNameStatus}}，不会直接展示给雇主</view>
+      </view>
+      <text>›</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">安全与隐私</view>
+    <view class="switch-row">
+      <view>
+        <view class="row-title">双方同意后才展示联系方式</view>
+        <view class="row-sub">建议保持开启，避免手机号被随意看到</view>
+      </view>
+      <switch checked="{{settings.privacyContact}}" data-key="privacyContact" bindchange="toggleSetting" color="#1da56b" />
+    </view>
+    <view class="safe-note">不要提前交押金、保证金、服装费。线下见面建议告诉家人。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">提醒</view>
+    <view class="switch-row">
+      <view>
+        <view class="row-title">报名进展提醒</view>
+        <view class="row-sub">雇主同意联系时提醒您</view>
+      </view>
+      <switch checked="{{settings.applicationNotice}}" data-key="applicationNotice" bindchange="toggleSetting" color="#1da56b" />
+    </view>
+    <view class="switch-row">
+      <view>
+        <view class="row-title">新工作提醒</view>
+        <view class="row-sub">附近有合适工作时提醒</view>
+      </view>
+      <switch checked="{{settings.jobNotice}}" data-key="jobNotice" bindchange="toggleSetting" color="#1da56b" />
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">帮助与协议</view>
+    <view class="setting-row" bindtap="callService">
+      <view>
+        <view class="row-title">联系客服</view>
+        <view class="row-sub">报名、联系、保险问题都可以咨询</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-row" data-type="user" bindtap="openAgreement">
+      <view>
+        <view class="row-title">用户协议</view>
+        <view class="row-sub">查看平台使用规则</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-row" data-type="service" bindtap="openAgreement">
+      <view>
+        <view class="row-title">服务协议</view>
+        <view class="row-sub">查看平台服务范围</view>
+      </view>
+      <text>›</text>
+    </view>
+    <view class="setting-row" data-type="privacy" bindtap="openAgreement">
+      <view>
+        <view class="row-title">隐私政策</view>
+        <view class="row-sub">了解资料如何被使用</view>
+      </view>
+      <text>›</text>
+    </view>
+  </view>
+
+  <view class="brand-card">
+    <image class="brand-logo" src="../../images/logo-zhaolinggong-512.png" mode="aspectFit"></image>
+    <view>
+      <view class="brand-name">找龄工</view>
+      <view class="brand-desc">当前版本 v0.1.0 测试版</view>
+    </view>
+  </view>
+</view>

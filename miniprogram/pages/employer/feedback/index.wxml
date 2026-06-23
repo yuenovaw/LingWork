@@ -1,0 +1,28 @@
+<!--意见反馈页面-->
+<view class="feedback-page">
+  <text class="page-title">意见反馈</text>
+
+  <view class="form-card">
+    <view class="form-item">
+      <text class="form-label">反馈类型</text>
+      <view class="type-selector">
+        <view class="type-option {{feedbackType === 'bug' ? 'active' : ''}}" bindtap="onTypeSelect" data-type="bug">
+          <text class="type-text">功能异常</text>
+        </view>
+        <view class="type-option {{feedbackType === 'suggestion' ? 'active' : ''}}" bindtap="onTypeSelect" data-type="suggestion">
+          <text class="type-text">功能建议</text>
+        </view>
+        <view class="type-option {{feedbackType === 'other' ? 'active' : ''}}" bindtap="onTypeSelect" data-type="other">
+          <text class="type-text">其他</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">反馈内容</text>
+      <textarea class="form-textarea" placeholder="请详细描述您遇到的问题或建议" value="{{feedbackContent}}" bindinput="onContentInput"/>
+    </view>
+
+    <view class="submit-btn" bindtap="onSubmit">提交反馈</view>
+  </view>
+</view>

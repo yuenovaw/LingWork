@@ -1,0 +1,46 @@
+<!--消息页-->
+<view class="messages-page page-with-tabbar">
+  <!-- 状态标签 -->
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onTabTap"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <!-- 候选人列表 -->
+  <view class="candidate-list">
+    <view
+      wx:for="{{filteredCandidates}}"
+      wx:key="id"
+      class="candidate-card"
+      data-id="{{item.id}}"
+      bindtap="onCandidateTap"
+    >
+      <view class="candidate-info">
+        <text class="candidate-name">{{item.name}} · {{item.age}}岁</text>
+        <text class="candidate-meta">意向：{{item.jobTitle}}</text>
+        <text class="candidate-time">{{item.time}}</text>
+        <text class="candidate-intro">"{{item.summary}}"</text>
+      </view>
+      <view class="candidate-action">
+        <text class="candidate-action-text">查看详情</text>
+        <text class="candidate-action-arrow">→</text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{filteredCandidates.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无候选人</text>
+    </view>
+  </view>
+</view>
+
+<!-- 底部导航 -->
+<employer-tabbar current="messages"></employer-tabbar>

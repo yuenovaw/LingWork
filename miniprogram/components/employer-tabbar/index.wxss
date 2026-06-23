@@ -1,0 +1,144 @@
+/**
+ * 雇主端底部导航组件样式
+ */
+
+.employer-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  border-top: 1px solid #E5E7EB;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  z-index: 100;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  height: 100%;
+  transition: background-color 0.2s;
+}
+
+.tab-item:active {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.tab-icon {
+  width: 26px;
+  height: 26px;
+  margin-bottom: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9CA3AF;
+  transition: color 0.2s;
+}
+
+.tab-item.active .tab-label {
+  color: #67BE86;
+}
+
+/* ==================== SVG 图标样式 ==================== */
+
+/* 首页图标 */
+.svg-home {
+  width: 24px;
+  height: 24px;
+  background-color: #9CA3AF;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>') no-repeat center / contain;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>') no-repeat center / contain;
+}
+
+.svg-home.active {
+  background-color: #67BE86;
+}
+
+/* 职位图标 */
+.svg-briefcase {
+  width: 24px;
+  height: 24px;
+  background-color: #9CA3AF;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>') no-repeat center / contain;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>') no-repeat center / contain;
+}
+
+.svg-briefcase.active {
+  background-color: #67BE86;
+}
+
+/* 发布图标 (+ 圆形) */
+.svg-plus {
+  width: 24px;
+  height: 24px;
+  background-color: #9CA3AF;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-plus::before,
+.svg-plus::after {
+  content: '';
+  position: absolute;
+  background-color: #F7FCF9;
+}
+
+.svg-plus::before {
+  width: 12px;
+  height: 2px;
+}
+
+.svg-plus::after {
+  width: 2px;
+  height: 12px;
+}
+
+.svg-plus.active {
+  background-color: #67BE86;
+}
+
+/* 消息图标 */
+.svg-message {
+  width: 24px;
+  height: 24px;
+  background-color: #9CA3AF;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>') no-repeat center / contain;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>') no-repeat center / contain;
+}
+
+.svg-message.active {
+  background-color: #67BE86;
+}
+
+/* 我的图标 */
+.svg-user {
+  width: 24px;
+  height: 24px;
+  background-color: #9CA3AF;
+  mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>') no-repeat center / contain;
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>') no-repeat center / contain;
+}
+
+.svg-user.active {
+  background-color: #67BE86;
+}
+
+/* 安全区域适配 */
+.safe-area-bottom {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}

@@ -1,0 +1,31 @@
+<!--发布页-->
+<view class="publish-page page-with-tabbar">
+  <text class="page-title">发布新岗位</text>
+
+  <text class="section-label">选择发布方式</text>
+
+  <view class="publish-options">
+    <!-- AI 帮发布 -->
+    <view class="publish-option {{selectedOption === 'ai' ? 'ai-option' : ''}}" bindtap="onAiPublish" hover-class="publish-option-hover">
+      <text class="publish-icon">✨</text>
+      <text class="publish-title">AI 帮发布</text>
+      <text class="publish-desc">说几句话，帮你生成岗位</text>
+      <text class="publish-arrow">开始 →</text>
+    </view>
+
+    <!-- 手动填写 -->
+    <view class="publish-option {{selectedOption === 'manual' ? 'ai-option' : ''}}" bindtap="onManualPublish" hover-class="publish-option-hover">
+      <text class="publish-icon">📝</text>
+      <text class="publish-title">手动填写</text>
+      <text class="publish-desc">自己填写岗位信息</text>
+      <text class="publish-arrow">开始 →</text>
+    </view>
+  </view>
+
+  <view class="tip-box">
+    <text class="tip-text">💡 小提示：不太会写招聘信息？试试 AI 帮发布吧！只需简单描述，AI 就能帮你生成专业的岗位描述。</text>
+  </view>
+</view>
+
+<!-- 底部导航 -->
+<employer-tabbar current="publish"></employer-tabbar>

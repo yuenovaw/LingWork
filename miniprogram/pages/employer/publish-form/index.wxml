@@ -1,0 +1,116 @@
+<!--发布岗位表单页-->
+<view class="publish-form-page">
+  <scroll-view class="form-body" scroll-y>
+    <view class="form-section">
+      <text class="form-section-title">基本信息</text>
+
+      <view class="form-item">
+        <text class="label required">岗位名称</text>
+        <input
+          class="input"
+          placeholder="如：养老院护工、保洁阿姨"
+          value="{{formData.title}}"
+          bindinput="onTitleInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label required">薪资待遇</text>
+        <input
+          class="input"
+          placeholder="如：160元/天、5000元/月"
+          value="{{formData.salary}}"
+          bindinput="onSalaryInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label required">工作地点</text>
+        <input
+          class="input"
+          placeholder="如：南京鼓楼区湖南路"
+          value="{{formData.location}}"
+          bindinput="onLocationInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-section">
+      <text class="form-section-title">详细信息</text>
+
+      <view class="form-item">
+        <text class="label required">工作时间</text>
+        <input
+          class="input"
+          placeholder="如：8:00-18:00 周一至周五"
+          value="{{formData.workTime}}"
+          bindinput="onWorkTimeInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label required">招聘人数</text>
+        <input
+          class="input"
+          type="number"
+          placeholder="填写需要招聘的人数"
+          value="{{formData.recruitCount}}"
+          bindinput="onCountInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="label">年龄要求</text>
+        <input
+          class="input"
+          placeholder="如：50-65岁"
+          value="{{formData.ageRequirement}}"
+          bindinput="onAgeInput"
+        />
+        <text class="form-hint">选填，可根据岗位需求填写</text>
+      </view>
+
+      <view class="form-item">
+        <text class="label required">岗位要求</text>
+        <textarea
+          class="textarea"
+          placeholder="简要描述对求职者的要求，如：身体健康、有相关工作经验等"
+          value="{{formData.requirements}}"
+          bindinput="onRequirementsInput"
+          maxlength="200"
+        />
+        <text class="char-count">{{formData.requirements.length}}/200</text>
+      </view>
+
+      <view class="form-item">
+        <text class="label">岗位说明</text>
+        <textarea
+          class="textarea"
+          placeholder="详细描述工作内容、工作环境等（选填）"
+          value="{{formData.description}}"
+          bindinput="onDescriptionInput"
+          maxlength="500"
+        />
+        <text class="char-count">{{formData.description.length}}/500</text>
+      </view>
+
+      <view class="form-item">
+        <text class="label required">联系电话</text>
+        <input
+          class="input"
+          type="number"
+          placeholder="求职者联系您的电话"
+          value="{{formData.phone}}"
+          bindinput="onPhoneInput"
+          maxlength="11"
+        />
+      </view>
+    </view>
+
+    <view style="height: 80px;"></view>
+  </scroll-view>
+
+  <view class="form-submit-bar">
+    <view class="form-submit-btn" bindtap="onSubmit">确认发布</view>
+  </view>
+</view>

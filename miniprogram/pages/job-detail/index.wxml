@@ -1,0 +1,64 @@
+<view wx:if="{{job}}" class="page">
+  <view class="hero">
+    <view class="hero-top">
+      <view class="status">招聘中</view>
+      <view class="distance">{{job.distance}}</view>
+    </view>
+    <view class="title">{{job.title}}</view>
+    <view class="salary">{{job.salary}}</view>
+    <view class="plain">{{job.location}} · {{job.workTime}}</view>
+  </view>
+
+  <view class="safe-box">
+    <view>
+      <view class="safe-title">电话先保护</view>
+      <view class="safe-text">报名后不公开手机号，双方都同意后才显示。</view>
+    </view>
+    <view class="safe-steps">
+      <view>1 报名</view>
+      <view>2 同意</view>
+      <view>3 电话</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">工作信息</view>
+    <view class="row"><text>时间</text><text>{{job.workTime}}</text></view>
+    <view class="row"><text>年龄</text><text>{{job.ageRequirement}}</text></view>
+    <view class="row"><text>人数</text><text>招 {{job.headcount}} 人</text></view>
+    <view class="tags">
+      <text wx:for="{{job.benefits}}" wx:key="*this" class="tag">{{item}}</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">要做什么</view>
+    <view class="work-block">
+      <view class="body strong">工作内容</view>
+      <view class="body">{{job.description}}</view>
+    </view>
+    <view class="work-block">
+      <view class="body strong">需要条件</view>
+      <view class="body">{{job.requirement}}</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">雇主信息</view>
+    <view class="body">{{job.employerName}} · {{job.employerContact}}</view>
+    <view wx:if="{{canShowContact}}" class="contact-card">
+      <view>电话：{{job.contactPhone}}</view>
+      <view>微信：{{job.wechatId}}</view>
+      <button bindtap="copyPhone">复制电话</button>
+    </view>
+    <view wx:else class="locked">联系方式暂不显示。报名后按页面提示同意联系，雇主也同意后就能看到电话。</view>
+  </view>
+
+  <view class="bottom-space"></view>
+  <view class="bottom-bar">
+    <button wx:if="{{!application}}" class="primary" bindtap="applyJob">我要报名这个工作</button>
+    <button wx:elif="{{application && !application.workerAgreed}}" class="primary" bindtap="agreeContact">下一步：我同意联系</button>
+    <button wx:elif="{{application && application.workerAgreed && !application.employerAgreed}}" class="secondary" bindtap="simulateEmployerAgree">等待雇主同意（演示）</button>
+    <button wx:else class="primary" bindtap="copyPhone">复制雇主电话</button>
+  </view>
+</view>

@@ -1,0 +1,315 @@
+page {
+  background: #f7fcf9;
+}
+
+.page {
+  padding: 24rpx 28rpx 48rpx;
+  color: #24362c;
+}
+
+.top-hero {
+  border-radius: 26rpx;
+  padding: 30rpx 28rpx 24rpx;
+  margin-bottom: 24rpx;
+  background: #fff;
+  color: #24362c;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 14rpx 34rpx rgba(79, 139, 97, 0.08);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18rpx;
+  margin-bottom: 22rpx;
+}
+
+.hello {
+  font-size: 44rpx;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.sub {
+  margin-top: 10rpx;
+  color: #597163;
+  font-size: 29rpx;
+  line-height: 1.45;
+}
+
+.role-btn {
+  flex-shrink: 0;
+  min-width: 136rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  border-radius: 999rpx;
+  background: #eef9f2;
+  color: #3f8b62;
+  font-size: 28rpx;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.guide-card {
+  background: #f7fbf8;
+  border: 2rpx solid #e3f1e8;
+  border-radius: 18rpx;
+  padding: 14rpx;
+}
+
+.guide-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+}
+
+.guide-steps view {
+  min-height: 68rpx;
+  border-radius: 14rpx;
+  background: #fff;
+  color: #3f8b62;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 26rpx;
+  font-weight: 800;
+  line-height: 1.25;
+  padding: 0 8rpx;
+}
+
+.guide-steps text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  background: #67be86;
+  color: #fff;
+  font-size: 22rpx;
+  margin-right: 6rpx;
+}
+
+.search {
+  height: 104rpx;
+  border-radius: 18rpx;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 0 28rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 10rpx 24rpx rgba(79, 139, 97, 0.06);
+}
+
+.search-icon {
+  font-size: 42rpx;
+  color: #67be86;
+  margin-right: 14rpx;
+}
+
+.search input {
+  flex: 1;
+  font-size: 34rpx;
+}
+
+.chips {
+  white-space: nowrap;
+  margin: 24rpx 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 76rpx;
+  padding: 0 28rpx;
+  margin-right: 16rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  color: #5d554d;
+  font-size: 31rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: none;
+}
+
+.chip.active {
+  background: #67be86;
+  color: #fff;
+  font-weight: 700;
+}
+
+.assist-card {
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  background: #eefaf4;
+  border: 2rpx solid #cce9d8;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+}
+
+.assist-main {
+  flex: 1;
+}
+
+.assist-title {
+  color: #3f8b62;
+  font-size: 32rpx;
+  font-weight: 800;
+}
+
+.assist-text {
+  color: #406653;
+  font-size: 28rpx;
+  line-height: 1.55;
+  margin-top: 8rpx;
+}
+
+.assist-card button {
+  flex-shrink: 0;
+  margin: 0;
+  width: 156rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  border-radius: 999rpx;
+  background: #1da56b;
+  color: #fff;
+  font-size: 29rpx;
+  font-weight: 800;
+}
+
+.list-title {
+  font-size: 32rpx;
+  font-weight: 800;
+  margin: 6rpx 0 18rpx;
+}
+
+.empty {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 34rpx 28rpx;
+  box-shadow: 0 8rpx 24rpx rgba(79, 139, 97, 0.06);
+}
+
+.empty-title {
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.empty-text {
+  color: #7d746a;
+  font-size: 30rpx;
+  line-height: 1.5;
+  margin-top: 12rpx;
+}
+
+.job-card {
+  background: #fff;
+  border-radius: 22rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 12rpx 28rpx rgba(79, 139, 97, 0.06);
+}
+
+.job-head,
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.job-title {
+  font-size: 39rpx;
+  font-weight: 800;
+  line-height: 1.28;
+}
+
+.status {
+  flex-shrink: 0;
+  color: #4aa76e;
+  background: #e7f7ef;
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+}
+
+.salary {
+  color: #3f8b62;
+  font-size: 48rpx;
+  font-weight: 800;
+  margin-top: 18rpx;
+}
+
+.meta {
+  color: #645b52;
+  font-size: 30rpx;
+  line-height: 1.55;
+  margin-top: 8rpx;
+}
+
+.tags {
+  margin: 18rpx 0;
+}
+
+.tag {
+  display: inline-block;
+  background: #f1f3ed;
+  color: #5a6b3d;
+  border-radius: 999rpx;
+  padding: 8rpx 12rpx;
+  margin: 0 12rpx 12rpx 0;
+  font-size: 26rpx;
+}
+
+.card-bottom {
+  color: #7d746a;
+  font-size: 28rpx;
+  border-top: 2rpx solid #e1eee6;
+  padding-top: 20rpx;
+}
+
+.detail-btn {
+  margin: 0;
+  min-width: 190rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  border-radius: 999rpx;
+  background: #67be86;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.employer-placeholder {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 34rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 8rpx 24rpx rgba(79, 139, 97, 0.06);
+}
+
+.placeholder-title {
+  font-size: 38rpx;
+  font-weight: 800;
+}
+
+.placeholder-text {
+  color: #645b52;
+  font-size: 31rpx;
+  line-height: 1.6;
+  margin: 16rpx 0 28rpx;
+}
+
+.employer-placeholder button {
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 8rpx;
+  background: #67be86;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 800;
+}

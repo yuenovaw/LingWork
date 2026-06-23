@@ -1,0 +1,91 @@
+<!--职位页-->
+<view class="jobs-page page-with-tabbar">
+  <!-- 筛选标签 -->
+  <view class="tabs">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="onTabTap"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
+  <!-- 岗位列表 -->
+  <view class="job-list">
+    <view
+      wx:for="{{filteredJobs}}"
+      wx:key="id"
+      class="job-card"
+      data-id="{{item.id}}"
+      bindtap="onJobTap"
+    >
+      <!-- 岗位头部 -->
+      <view class="job-header">
+        <text class="job-title">{{item.title}}</text>
+        <view class="status-badge status-{{item.status}}">
+          {{item.status === 'active' ? '招聘中' : '已关闭'}}
+        </view>
+      </view>
+
+      <!-- 岗位信息 -->
+      <view class="job-details">
+        <view class="detail-row">
+          <text class="detail-label">薪资</text>
+          <text class="detail-value">{{item.salary}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">地点</text>
+          <text class="detail-value">{{item.location}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">时间</text>
+          <text class="detail-value">{{item.workTime}}</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">人数</text>
+          <text class="detail-value">招 {{item.recruitCount}} 人</text>
+        </view>
+        <view class="detail-row">
+          <text class="detail-label">要求</text>
+          <text class="detail-value">{{item.requirements}}</text>
+        </view>
+      </view>
+
+      <!-- 底部操作 -->
+      <view class="job-actions">
+        <text class="job-pending">待处理 {{item.pendingCount}} 人</text>
+        <view class="action-buttons">
+          <view
+            class="action-btn edit-btn"
+            data-id="{{item.id}}"
+            bindtap="onEditJob"
+          >编辑</view>
+          <view
+            wx:if="{{item.status === 'active'}}"
+            class="action-btn close-btn"
+            data-id="{{item.id}}"
+            bindtap="onCloseJob"
+          >关闭</view>
+          <view
+            wx:else
+            class="action-btn restore-btn"
+            data-id="{{item.id}}"
+            bindtap="onRestoreJob"
+          >恢复招聘</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view wx:if="{{filteredJobs.length === 0}}" class="empty-state">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无岗位</text>
+    </view>
+  </view>
+</view>
+
+<!-- 底部导航 -->
+<employer-tabbar current="jobs"></employer-tabbar>

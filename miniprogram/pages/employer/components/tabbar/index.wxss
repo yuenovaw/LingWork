@@ -1,0 +1,38 @@
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: flex;
+  min-height: 104rpx;
+  padding-top: 8rpx;
+  background: #fff;
+  border-top: 2rpx solid #e3f1e8;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  color: #8b8177;
+  font-size: 24rpx;
+}
+
+.icon {
+  width: 44rpx;
+  height: 44rpx;
+  line-height: 44rpx;
+  margin: 0 auto 2rpx;
+  border-radius: 50%;
+  font-size: 24rpx;
+  font-weight: 800;
+}
+
+.active {
+  color: #67be86;
+  font-weight: 800;
+}
+
+.active .icon {
+  background: #eef9f2;
+}

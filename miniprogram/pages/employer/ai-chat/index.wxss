@@ -1,0 +1,118 @@
+/**
+ * AI聊天发布页
+ */
+
+.ai-chat-page {
+  min-height: 100vh;
+  background: #F7FCF9;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+.message {
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.ai-msg {
+  justify-content: flex-start;
+}
+
+.user-msg {
+  justify-content: flex-end;
+}
+
+.message-content {
+  max-width: 75%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.ai-msg .message-content {
+  background: #FFFFFF;
+  color: #1F2937;
+}
+
+.user-msg .message-content {
+  background: #67BE86;
+  color: #FFFFFF;
+}
+
+.loading {
+  opacity: 0.8;
+}
+
+.loading-text {
+  font-size: 15px;
+  color: #6B7280;
+}
+
+/* 输入区域 */
+.chat-input-bar {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  background: #FFFFFF;
+  padding: 12px 16px;
+  border-top: 1px solid #E5E7EB;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-input {
+  flex: 1;
+  height: 40px;
+  background: #F3F4F6;
+  border-radius: 20px;
+  padding: 0 16px;
+  font-size: 15px;
+}
+
+.send-btn {
+  width: 60px;
+  height: 40px;
+  border-radius: 20px;
+  background: #E5E7EB;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.send-btn.active {
+  background: #67BE86;
+  color: #FFFFFF;
+}
+
+/* 确认发布按钮 */
+.confirm-btn {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  height: 48px;
+  background: #67BE86;
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(103, 190, 134, 0.3);
+}

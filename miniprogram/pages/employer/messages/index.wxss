@@ -1,0 +1,126 @@
+/**
+ * 消息页
+ */
+
+.messages-page {
+  min-height: 100vh;
+  background: #F7FCF9;
+}
+
+/* 状态标签 - 统一样式 */
+.tabs {
+  display: flex;
+  background: #F3F4F6;
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: 15px;
+  color: #6B7280;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: #FFFFFF;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+/* 候选人列表 */
+.candidate-list {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.candidate-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.candidate-info {
+  flex: 1;
+  padding-right: 12px;
+  border-right: 1px solid #F3F4F6;
+}
+
+.candidate-name {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 4px;
+}
+
+.candidate-meta {
+  display: block;
+  font-size: 15px;
+  color: #6B7280;
+  margin-bottom: 4px;
+}
+
+.candidate-time {
+  display: block;
+  font-size: 13px;
+  color: #9CA3AF;
+  margin-bottom: 8px;
+}
+
+.candidate-intro {
+  display: block;
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.candidate-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-left: 12px;
+}
+
+.candidate-action-text {
+  font-size: 13px;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+.candidate-action-arrow {
+  font-size: 16px;
+  color: #9CA3AF;
+}
+
+/* 空状态 */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  display: block;
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-text {
+  display: block;
+  font-size: 17px;
+  color: #6B7280;
+}

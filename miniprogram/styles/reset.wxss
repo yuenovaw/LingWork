@@ -1,0 +1,32 @@
+/**
+ * 样式重置
+ */
+
+page {
+  background-color: #F7FCF9;
+  color: #1F2937;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+/* 重置默认样式 */
+view, text, button, input, textarea, scroll-view {
+  box-sizing: border-box;
+}
+
+/* 移除按钮默认样式 */
+button {
+  background: initial;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+button::after {
+  border: none;
+}
+
+/* 输入框样式重置 */
+input, textarea {
+  caret-color: #67BE86;
+}

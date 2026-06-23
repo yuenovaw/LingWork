@@ -1,0 +1,34 @@
+<!--认证页面-->
+<view class="verify-page">
+  <text class="page-title">企业认证</text>
+
+  <!-- 已认证状态 -->
+  <view wx:if="{{isVerified}}" class="verified-card">
+    <text class="verified-icon">✓</text>
+    <text class="verified-title">已认证</text>
+    <text class="verified-desc">您已完成企业认证</text>
+  </view>
+
+  <!-- 未认证状态 -->
+  <view wx:else>
+    <view class="info-card">
+      <text class="info-title">认证说明</text>
+      <text class="info-text">完成企业认证后，您可以：</text>
+      <view class="benefit-list">
+        <text class="benefit-item">✓ 发布更多岗位信息</text>
+        <text class="benefit-item">✓ 查看候选人完整简历</text>
+        <text class="benefit-item">✓ 提高招聘成功率</text>
+      </view>
+    </view>
+
+    <view class="upload-card">
+      <text class="upload-title">上传营业执照</text>
+      <view class="upload-area">
+        <text class="upload-icon">📄</text>
+        <text class="upload-text">点击上传营业执照照片</text>
+      </view>
+    </view>
+
+    <view class="submit-btn" bindtap="onSubmit">提交认证</view>
+  </view>
+</view>

@@ -1,0 +1,228 @@
+page {
+  background: #f7fcf9;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.landing {
+  min-height: 100vh;
+  padding: 34rpx 34rpx 52rpx;
+  box-sizing: border-box;
+  color: #2f2923;
+  background: linear-gradient(180deg, #f7fcf9 0%, #eff9f3 100%);
+}
+
+.hero {
+  min-height: 470rpx;
+  padding: 36rpx 30rpx 34rpx;
+  border-radius: 30rpx;
+  background: #fff;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 14rpx 36rpx rgba(79, 139, 97, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.brand-badge {
+  height: 58rpx;
+  line-height: 58rpx;
+  padding: 0 24rpx;
+  border-radius: 999rpx;
+  background: #f1faf4;
+  color: #3f8b62;
+  font-size: 27rpx;
+  font-weight: 900;
+}
+
+.brand-logo {
+  width: 172rpx;
+  height: 172rpx;
+  margin-top: 26rpx;
+  display: block;
+  border-radius: 46rpx;
+  background: #fff;
+  box-shadow: 0 14rpx 30rpx rgba(79, 139, 97, 0.1);
+}
+
+.brand-title {
+  margin-top: 24rpx;
+  color: #2f2923;
+  font-size: 70rpx;
+  line-height: 1.08;
+  font-weight: 900;
+}
+
+.brand-sub {
+  margin-top: 18rpx;
+  max-width: 560rpx;
+  color: #6f655d;
+  font-size: 31rpx;
+  line-height: 1.55;
+  font-weight: 800;
+}
+
+.guide-card {
+  margin-top: 26rpx;
+  padding: 34rpx 30rpx 30rpx;
+  border-radius: 28rpx;
+  background: #fff;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 14rpx 36rpx rgba(79, 139, 97, 0.07);
+}
+
+.guide-title {
+  color: #2f2923;
+  font-size: 40rpx;
+  line-height: 1.25;
+  font-weight: 900;
+}
+
+.guide-sub {
+  margin-top: 10rpx;
+  color: #7b7068;
+  font-size: 28rpx;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.phone-field {
+  margin-top: 28rpx;
+  padding: 24rpx 24rpx 22rpx;
+  border-radius: 24rpx;
+  background: #f7fbf8;
+  border: 2rpx solid #d7eadf;
+}
+
+.phone-label {
+  display: block;
+  color: #6b6259;
+  font-size: 25rpx;
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+.phone-input {
+  width: 100%;
+  height: 72rpx;
+  margin-top: 8rpx;
+  color: #2f2923;
+  font-size: 36rpx;
+  line-height: 72rpx;
+  font-weight: 900;
+  letter-spacing: 1rpx;
+}
+
+.phone-placeholder {
+  color: #b7aca1;
+  font-size: 31rpx;
+  font-weight: 700;
+}
+
+.primary-action {
+  width: 100%;
+  min-height: 128rpx;
+  margin-top: 24rpx;
+  padding: 24rpx 28rpx;
+  border-radius: 26rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.primary-action {
+  background: #3f8b62;
+  color: #fff;
+  box-shadow: 0 16rpx 34rpx rgba(31, 111, 70, 0.18);
+}
+
+.primary-action.ready {
+  background: #67be86;
+}
+
+.action-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.action-title,
+.action-desc {
+  display: block;
+}
+
+.action-title {
+  font-size: 35rpx;
+  line-height: 1.25;
+  font-weight: 900;
+}
+
+.action-desc {
+  margin-top: 10rpx;
+  font-size: 25rpx;
+  line-height: 1.45;
+  font-weight: 700;
+  opacity: 0.82;
+}
+
+.privacy-note {
+  margin-top: 18rpx;
+  color: #8a8076;
+  font-size: 24rpx;
+  line-height: 1.45;
+  text-align: center;
+  font-weight: 700;
+}
+
+.promise-list {
+  margin-top: 26rpx;
+  display: grid;
+  gap: 16rpx;
+}
+
+.promise-item {
+  min-height: 104rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 28rpx;
+  background: #fff;
+  border: 2rpx solid #e3f1e8;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+}
+
+.promise-mark {
+  width: 58rpx;
+  height: 58rpx;
+  line-height: 58rpx;
+  border-radius: 50%;
+  background: #f1faf4;
+  color: #138a54;
+  text-align: center;
+  font-size: 29rpx;
+  font-weight: 900;
+  flex: 0 0 58rpx;
+}
+
+.promise-title {
+  color: #2f2923;
+  font-size: 30rpx;
+  line-height: 1.3;
+  font-weight: 900;
+}
+
+.promise-desc {
+  margin-top: 4rpx;
+  color: #7b7068;
+  font-size: 26rpx;
+  line-height: 1.35;
+  font-weight: 800;
+}

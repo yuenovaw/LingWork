@@ -1,0 +1,62 @@
+<view class="landing">
+  <view class="hero">
+    <view class="brand-badge">南京附近零工</view>
+    <image class="brand-logo" src="../../images/logo-zhaolinggong-512.png" mode="aspectFit"></image>
+    <view class="brand-title">找龄工</view>
+    <view class="brand-sub">给中老年人看的安心零工平台。字大、步骤少，电话先保护。</view>
+  </view>
+
+  <view class="guide-card">
+    <view class="guide-title">进入找龄工</view>
+    <view class="guide-sub">请先填写联系电话。号码仅用于报名沟通，不会公开展示。</view>
+
+    <view class="phone-field">
+      <text class="phone-label">手机号</text>
+      <input
+        class="phone-input"
+        type="number"
+        maxlength="11"
+        placeholder="请输入11位手机号"
+        placeholder-class="phone-placeholder"
+        value="{{phoneNumber}}"
+        bindinput="onPhoneInput"
+      />
+    </view>
+
+    <button
+      class="primary-action enter-action {{phoneNumber.length === 11 ? 'ready' : ''}}"
+      bindtap="onEntryTap"
+    >
+      <view class="action-copy">
+        <text class="action-title">进入小程序</text>
+        <text class="action-desc">找附近工作，或让 AI 帮您登记资料</text>
+      </view>
+    </button>
+
+    <view class="privacy-note">我们会保护您的联系方式，双方确认后再联系。</view>
+  </view>
+
+  <view class="promise-list">
+    <view class="promise-item">
+      <text class="promise-mark">近</text>
+      <view>
+        <view class="promise-title">优先附近</view>
+        <view class="promise-desc">少跑路，慢慢看</view>
+      </view>
+    </view>
+    <view class="promise-item">
+      <text class="promise-mark">稳</text>
+      <view>
+        <view class="promise-title">白天轻活</view>
+        <view class="promise-desc">适合中老年人</view>
+      </view>
+    </view>
+    <view class="promise-item">
+      <text class="promise-mark">安</text>
+      <view>
+        <view class="promise-title">电话先保护</view>
+        <view class="promise-desc">双方同意后再联系</view>
+      </view>
+    </view>
+  </view>
+</view>

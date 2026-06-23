@@ -1,0 +1,148 @@
+page {
+  background: #f7fcf9;
+}
+
+.page {
+  padding: 28rpx;
+  color: #2f2a25;
+}
+
+.top-card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 24rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 10rpx 24rpx rgba(79, 139, 97, 0.06);
+}
+
+.title {
+  font-size: 44rpx;
+  font-weight: 800;
+}
+
+.hint {
+  margin-top: 10rpx;
+  color: #7d746a;
+  font-size: 30rpx;
+  line-height: 1.5;
+}
+
+.empty,
+.card {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-top: 0;
+  margin-bottom: 24rpx;
+  border: 2rpx solid #e3f1e8;
+  box-shadow: 0 10rpx 24rpx rgba(79, 139, 97, 0.06);
+}
+
+.empty-title {
+  font-size: 36rpx;
+  font-weight: 800;
+}
+
+.empty-text {
+  color: #7d746a;
+  font-size: 30rpx;
+  margin-top: 12rpx;
+}
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.job-title {
+  font-size: 38rpx;
+  font-weight: 800;
+  line-height: 1.28;
+}
+
+.badge {
+  flex-shrink: 0;
+  color: #3f8b62;
+  background: #f1faf4;
+  border-radius: 999rpx;
+  padding: 8rpx 14rpx;
+  font-size: 26rpx;
+}
+
+.badge.ok {
+  color: #4aa76e;
+  background: #e7f7ef;
+}
+
+.salary {
+  color: #3f8b62;
+  font-size: 42rpx;
+  font-weight: 800;
+  margin-top: 16rpx;
+}
+
+.meta {
+  color: #645b52;
+  font-size: 30rpx;
+  margin-top: 8rpx;
+}
+
+.insurance {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  border-radius: 12rpx;
+  padding: 16rpx 18rpx;
+  margin-top: 18rpx;
+  font-size: 30rpx;
+  font-weight: 800;
+}
+
+.insurance.safe {
+  background: #e7f7ef;
+  color: #4aa76e;
+}
+
+.insurance.warn {
+  background: #f1faf4;
+  color: #3f8b62;
+}
+
+.insurance.pending {
+  background: #f1ede7;
+  color: #6f604e;
+}
+
+.insurance-dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.steps {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 22rpx;
+}
+
+.step {
+  flex: 1;
+  text-align: center;
+  background: #f1ede7;
+  color: #7d746a;
+  border-radius: 12rpx;
+  padding: 14rpx 6rpx;
+  font-size: 25rpx;
+  font-weight: 700;
+}
+
+.step.done {
+  background: #e7f7ef;
+  color: #4aa76e;
+  font-weight: 700;
+}

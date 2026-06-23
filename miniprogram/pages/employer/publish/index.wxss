@@ -1,0 +1,98 @@
+/**
+ * 发布页
+ */
+
+.publish-page {
+  min-height: 100vh;
+  background: #F7FCF9;
+  padding: 16px;
+}
+
+.page-title {
+  display: block;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 16px;
+}
+
+.section-label {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 12px;
+}
+
+/* 发布选项 */
+.publish-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.publish-option {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.publish-option:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.publish-option.ai-option {
+  background: linear-gradient(135deg, rgba(103, 190, 134, 0.06), rgba(103, 190, 134, 0.13));
+  border-color: #67BE86;
+}
+
+.publish-option:active {
+  opacity: 0.8;
+}
+
+.publish-icon {
+  display: block;
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.publish-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 8px;
+}
+
+.publish-desc {
+  display: block;
+  font-size: 15px;
+  color: #6B7280;
+  margin-bottom: 12px;
+}
+
+.publish-arrow {
+  display: block;
+  font-size: 15px;
+  color: #67BE86;
+}
+
+/* 提示框 */
+.tip-box {
+  background: #f1faf4;
+  border: 1px solid #d8efdf;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.tip-text {
+  display: block;
+  font-size: 15px;
+  color: #3f8b62;
+  line-height: 1.5;
+}

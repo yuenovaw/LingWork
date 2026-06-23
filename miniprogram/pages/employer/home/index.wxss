@@ -1,0 +1,231 @@
+/**
+ * 首页
+ */
+
+.home-page {
+  padding: 16px;
+  min-height: 100vh;
+  background: #F7FCF9;
+}
+
+/* 雇主信息卡片 */
+.employer-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  line-height: 56px;
+  border-radius: 50%;
+  text-align: center;
+  background: #eef9f2;
+  color: #3f8b62;
+  font-size: 24px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.employer-info {
+  flex: 1;
+}
+
+.employer-name {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 4px;
+}
+
+.employer-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.employer-type {
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.verified-badge {
+  font-size: 13px;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+.unverified-badge {
+  font-size: 13px;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+.arrow {
+  font-size: 24px;
+  color: #9CA3AF;
+}
+
+/* 区块 */
+.section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+  margin-bottom: 12px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.section-action {
+  font-size: 15px;
+  color: #67BE86;
+  font-weight: 500;
+}
+
+/* 统计网格 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 16px 8px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s;
+}
+
+.stat-card:active {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.stat-value {
+  display: block;
+  font-size: 28px;
+  font-weight: 600;
+  color: #67BE86;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  display: block;
+  font-size: 15px;
+  color: #6B7280;
+  margin-top: 4px;
+}
+
+/* 岗位列表 */
+.job-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.job-card {
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 16px;
+  min-height: 100px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.2s;
+}
+
+.job-card:active {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.job-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.job-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1F2937;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.status-active {
+  background: #D1FAE5;
+  color: #3f8b62;
+}
+
+.status-closed {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+.job-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.job-salary {
+  font-size: 17px;
+  font-weight: 500;
+  color: #67BE86;
+}
+
+.job-location {
+  font-size: 15px;
+  color: #6B7280;
+  margin-left: 8px;
+}
+
+.job-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.job-pending {
+  font-size: 15px;
+  color: #6B7280;
+}
+
+.job-action {
+  font-size: 15px;
+  color: #67BE86;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.job-action:active {
+  background-color: rgba(103, 190, 134, 0.1);
+}

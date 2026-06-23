@@ -1,0 +1,77 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/role-select/index",
+    "pages/agreement/index",
+    "pages/ai-onboarding/index",
+    "pages/jobs/index",
+    "pages/applications/index",
+    "pages/profile/index",
+    "pages/settings/index",
+    "pages/job-detail/index"
+  ],
+  "subPackages": [
+    {
+      "root": "pages/employer",
+      "name": "employer",
+      "pages": [
+        "home/index",
+        "jobs/index",
+        "publish/index",
+        "publish-form/index",
+        "messages/index",
+        "profile/index",
+        "candidate-detail/index",
+        "job-edit/index",
+        "ai-chat/index",
+        "verify/index",
+        "company-info/index",
+        "security/index",
+        "feedback/index",
+        "about/index",
+        "settings/index"
+      ]
+    }
+  ],
+  "window": {
+    "backgroundColor": "#F7FCF9",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#F7FCF9",
+    "navigationBarTitleText": "找龄工",
+    "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.record": {
+      "desc": "用于语音登记找工资料"
+    }
+  },
+  "tabBar": {
+    "color": "#7D746A",
+    "selectedColor": "#67BE86",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/jobs/index",
+        "text": "找工作",
+        "iconPath": "images/icons/home.png",
+        "selectedIconPath": "images/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/applications/index",
+        "text": "报名",
+        "iconPath": "images/icons/goods.png",
+        "selectedIconPath": "images/icons/goods-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "images/icons/usercenter.png",
+        "selectedIconPath": "images/icons/usercenter-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents"
+}

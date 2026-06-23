@@ -1,0 +1,35 @@
+<!--employer-tabbar-->
+<view class="employer-tabbar safe-area-bottom">
+  <view
+    wx:for="{{tabs}}"
+    wx:key="key"
+    class="tab-item {{current === item.key ? 'active' : ''}}"
+    data-key="{{item.key}}"
+    data-url="/pages/employer/{{item.key}}/index"
+    bindtap="onTabTap"
+  >
+    <view class="tab-icon">
+      <!-- 首页图标 -->
+      <view wx:if="{{item.icon === 'home'}}" class="icon-svg">
+        <view class="svg-home {{current === 'home' ? 'active' : ''}}"></view>
+      </view>
+      <!-- 职位图标 -->
+      <view wx:elif="{{item.icon === 'briefcase'}}" class="icon-svg">
+        <view class="svg-briefcase {{current === 'jobs' ? 'active' : ''}}"></view>
+      </view>
+      <!-- 发布图标 -->
+      <view wx:elif="{{item.icon === 'plus-circle'}}" class="icon-svg">
+        <view class="svg-plus {{current === 'publish' ? 'active' : ''}}"></view>
+      </view>
+      <!-- 消息图标 -->
+      <view wx:elif="{{item.icon === 'message'}}" class="icon-svg">
+        <view class="svg-message {{current === 'messages' ? 'active' : ''}}"></view>
+      </view>
+      <!-- 我的图标 -->
+      <view wx:elif="{{item.icon === 'user'}}" class="icon-svg">
+        <view class="svg-user {{current === 'profile' ? 'active' : ''}}"></view>
+      </view>
+    </view>
+    <view class="tab-label">{{item.label}}</view>
+  </view>
+</view>

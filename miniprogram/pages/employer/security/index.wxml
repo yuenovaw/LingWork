@@ -1,0 +1,18 @@
+<!--账户安全页面-->
+<view class="security-page">
+  <text class="page-title">账户安全</text>
+
+  <view class="menu-list">
+    <view class="menu-item">
+      <text class="menu-label">手机号</text>
+      <text class="menu-value">138****8888</text>
+    </view>
+  </view>
+
+  <view class="action-list">
+    <view class="action-item" bindtap="onChangePhone">
+      <text class="action-text">修改手机号</text>
+      <text class="action-arrow">→</text>
+    </view>
+  </view>
+</view>
