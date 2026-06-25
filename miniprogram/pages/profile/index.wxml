@@ -2,7 +2,7 @@
   <view class="profile-card">
     <view class="avatar">{{displayWorker.name.slice(0, 1)}}</view>
     <view class="profile-main">
-      <view class="name">{{displayWorker.name}} · {{displayWorker.age}}岁</view>
+      <view class="name">{{displayNameAge}}</view>
       <view class="sub">{{displayWorker.city}}{{displayWorker.district}} · {{role === 'worker' ? '正在找工作' : '雇主身份'}}</view>
       <view class="verify-badge">{{displayWorker.realNameStatus}}</view>
       <view wx:if="{{displayWorker.maskedPhone}}" class="phone-line">{{displayWorker.maskedPhone}}</view>

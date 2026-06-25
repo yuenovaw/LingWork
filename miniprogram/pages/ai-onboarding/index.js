@@ -60,7 +60,15 @@ Page({
     voiceStatus: "按住中间按钮，像打电话一样说",
     speechStatus: "AI 回复会自动播报",
     progressText: "还差 6 项",
-    scrollIntoView: "welcome"
+    scrollIntoView: "welcome",
+    mode: "select",
+    locating: false,
+    manualForm: {
+      name: "", age: "", city: "", expectedJobs: "",
+      availableTime: "", phone: "", experience: "", healthStatus: ""
+    },
+    jobOptions: ["门卫/保安", "保洁/清洁", "超市导购", "餐厅服务", "配送员", "停车管理员", "绿化工", "其他"],
+    timeOptions: ["全天", "上午", "下午", "周末", "弹性时间"]
   },
 
   onLoad() {
@@ -144,7 +152,6 @@ Page({
   },
 
   onReady() {
-    this.startOrbAnimation();
   },
 
   onUnload() {
@@ -329,11 +336,11 @@ Page({
     ctx.clip();
 
     const glass = ctx.createRadialGradient(cx - radius * 0.28, cy - radius * 0.36, radius * 0.06, cx, cy, radius);
-    glass.addColorStop(0, "rgba(255, 255, 255, 0.82)");
-    glass.addColorStop(0.2, "rgba(238, 250, 243, 0.72)");
-    glass.addColorStop(0.5, "rgba(176, 194, 187, 0.5)");
-    glass.addColorStop(0.76, "rgba(132, 153, 144, 0.46)");
-    glass.addColorStop(1, "rgba(86, 108, 99, 0.48)");
+    glass.addColorStop(0, "rgba(255, 255, 255, 0.84)");
+    glass.addColorStop(0.2, "rgba(246, 243, 255, 0.76)");
+    glass.addColorStop(0.48, "rgba(220, 208, 252, 0.58)");
+    glass.addColorStop(0.74, "rgba(186, 165, 235, 0.44)");
+    glass.addColorStop(1, "rgba(152, 128, 210, 0.36)");
     ctx.fillStyle = glass;
     ctx.fillRect(0, 0, width, height);
 
@@ -408,7 +415,7 @@ Page({
 
     drawEllipse(cx + Math.sin(t * 0.9) * radius * 0.06, cy - radius * 0.01, radius * 0.46, radius * 0.1, "rgba(255, 255, 246, 0.9)", 0.72);
     drawEllipse(cx - radius * 0.07, cy - radius * 0.36, radius * 0.52, radius * 0.2, "rgba(255, 255, 255, 0.46)", 0.74);
-    drawEllipse(cx, cy + radius * 0.58, radius * 0.82, radius * 0.18, "rgba(70, 96, 86, 0.14)", 0.36);
+    drawEllipse(cx, cy + radius * 0.58, radius * 0.82, radius * 0.18, "rgba(100, 80, 180, 0.12)", 0.36);
 
     ctx.restore();
 
@@ -758,6 +765,124 @@ Page({
     wx.switchTab({
       url: "/pages/jobs/index"
     });
+  },
+
+
+  onNavClose() {
+    const { mode } = this.data;
+    if (mode === "select") {
+      wx.navigateBack({ delta: 1 });
+    } else {
+      if (this.orbTimer) {
+        clearInterval(this.orbTimer);
+        this.orbTimer = null;
+      }
+      this.setData({ mode: "select" });
+    }
+  },
+
+  chooseMode(e) {
+    const m = e.currentTarget.dataset.mode;
+    this.setData({ mode: m }, () => {
+      if (m === "ai") this.startOrbAnimation();
+    });
+  },
+
+  onFormInput(e) {
+    const field = e.currentTarget.dataset.field;
+    const value = e.detail.value;
+    const manualForm = Object.assign({}, this.data.manualForm, { [field]: value });
+    this.setData({ manualForm });
+  },
+
+  toggleJobChip(e) {
+    const val = e.currentTarget.dataset.val;
+    let current = this.data.manualForm.expectedJobs || "";
+    if (current.indexOf(val) !== -1) {
+      current = current.replace(val, "").replace(/^[、,\s]+|[、,\s]+$/g, "").replace(/[、,\s]{2,}/g, "、");
+    } else {
+      current = current ? current + "、" + val : val;
+    }
+    this.setData({ "manualForm.expectedJobs": current });
+  },
+
+  toggleTimeChip(e) {
+    const val = e.currentTarget.dataset.val;
+    let current = this.data.manualForm.availableTime || "";
+    if (current.indexOf(val) !== -1) {
+      current = current.replace(val, "").replace(/^[、,\s]+|[、,\s]+$/g, "").replace(/[、,\s]{2,}/g, "、");
+    } else {
+      current = current ? current + "、" + val : val;
+    }
+    this.setData({ "manualForm.availableTime": current });
+  },
+
+  submitManualForm() {
+    const form = this.data.manualForm;
+    if (!form.name || !form.age || !form.city || !form.expectedJobs || !form.availableTime || !form.phone) {
+      wx.showToast({ title: "请填写必填项", icon: "none" });
+      return;
+    }
+    const summary = {
+      name: form.name,
+      age: form.age,
+      city: form.city,
+      expectedJobs: form.expectedJobs,
+      availableTime: form.availableTime,
+      phone: form.phone,
+      experience: form.experience || "",
+      healthStatus: form.healthStatus || "",
+      resumeText: form.name + "，" + form.age + "岁，在" + form.city + "找" + form.expectedJobs + "工作，可上班时间：" + form.availableTime + "。"
+    };
+    wx.setStorageSync("workerProfile", summary);
+    this.setData({ completed: true, summary });
+  },
+
+  async autoFillLocation() {
+    if (this.data.locating) return;
+    this.setData({ locating: true });
+    try {
+      const loc = await new Promise((resolve, reject) => {
+        wx.getLocation({ type: "wgs84", success: resolve, fail: reject });
+      });
+      const result = await wx.cloud.callFunction({
+        name: "quickstartFunctions",
+        data: { type: "reverseGeocode", latitude: loc.latitude, longitude: loc.longitude }
+      });
+      const d = result.result || {};
+      if (d.city) {
+        this.handleUserText("我在" + d.city);
+      } else {
+        wx.showToast({ title: "定位成功，请告诉AI您的附近区域", icon: "none" });
+      }
+    } catch (err) {
+      wx.showToast({ title: "定位失败，请手动输入地区", icon: "none" });
+    }
+    this.setData({ locating: false });
+  },
+
+  async autoFillLocationManual() {
+    if (this.data.locating) return;
+    this.setData({ locating: true });
+    try {
+      const loc = await new Promise((resolve, reject) => {
+        wx.getLocation({ type: "wgs84", success: resolve, fail: reject });
+      });
+      const result = await wx.cloud.callFunction({
+        name: "quickstartFunctions",
+        data: { type: "reverseGeocode", latitude: loc.latitude, longitude: loc.longitude }
+      });
+      const d = result.result || {};
+      const city = d.city || "";
+      if (city) {
+        this.setData({ "manualForm.city": city });
+      } else {
+        wx.showToast({ title: "未能获取地区，请手动输入", icon: "none" });
+      }
+    } catch (err) {
+      wx.showToast({ title: "定位失败，请手动输入", icon: "none" });
+    }
+    this.setData({ locating: false });
   },
 
   skipOnboarding() {

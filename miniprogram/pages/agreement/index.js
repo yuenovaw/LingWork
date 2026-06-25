@@ -55,6 +55,38 @@ Page({
     this.setData({ agreed: !this.data.agreed });
   },
 
+  savePendingPhone(role) {
+    const phoneNumber = wx.getStorageSync("pendingEntryPhone") || "";
+    if (!/^1[3-9]\d{9}$/.test(phoneNumber)) return;
+
+    wx.setStorageSync("phoneAuthorized", true);
+    wx.setStorageSync("authorizedPhone", phoneNumber);
+    wx.removeStorageSync("pendingEntryPhone");
+
+    if (role === "worker") {
+      const name = String(wx.getStorageSync("pendingEntryName") || "").trim();
+      wx.removeStorageSync("pendingEntryName");
+      if (name) {
+        const draft = wx.getStorageSync("workerProfileDraft") || {};
+        if (!draft.name) {
+          draft.name = name;
+          wx.setStorageSync("workerProfileDraft", draft);
+        }
+      }
+    }
+
+    wx.cloud.callFunction({
+      name: "quickstartFunctions",
+      data: {
+        type: "saveManualPhone",
+        phoneNumber,
+        next: role === "worker" ? "register" : "entry"
+      }
+    }).catch(() => {
+      // Phone is stored locally for the demo flow; cloud retry can be added later.
+    });
+  },
+
   continueRegister() {
     if (this.data.preview) {
       wx.navigateBack();
@@ -68,6 +100,7 @@ Page({
     wx.setStorageSync("currentRole", this.data.role);
     wx.setStorageSync("agreementAccepted", true);
     wx.setStorageSync("acceptedAgreementIds", agreements.map((item) => item.id));
+    this.savePendingPhone(this.data.role);
 
     if (this.data.role === "worker") {
       wx.redirectTo({ url: "/pages/ai-onboarding/index" });

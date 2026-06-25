@@ -2,44 +2,60 @@
 Page({
   data: {
     employerInfo: {
-      name: '张老板',
+      name: '未填写',
       type: '个人',
-      verified: true,
+      verified: false,
     },
     stats: {
-      activeJobs: 2,
-      pending: 3,
-      communicating: 1,
+      activeJobs: 0,
+      pending: 0,
+      communicating: 0,
       hired: 0,
     },
-    recentJobs: [
-      {
-        id: '1',
-        title: '养老院护工',
-        salary: '160元/天',
-        location: '南京鼓楼',
-        status: 'active',
-        pendingCount: 3,
-      },
-      {
-        id: '2',
-        title: '保洁阿姨',
-        salary: '120元/天',
-        location: '南京栖霞',
-        status: 'active',
-        pendingCount: 0,
-      },
-    ],
+    recentJobs: [],
+    statsLoading: false,
   },
 
   onLoad() {
-    // 加载雇主信息
     this.loadEmployerInfo();
+    this.loadRecruitment();
   },
 
   onShow() {
-    // 每次显示页面时重新加载，以便显示更新后的认证状态
     this.loadEmployerInfo();
+    this.loadRecruitment();
+  },
+
+  async loadRecruitment() {
+    this.setData({ statsLoading: true });
+    let jobs = [];
+    try {
+      const result = await wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'listEmployerJobs',
+        },
+      });
+      const data = result.result || {};
+      if (data.success) {
+        jobs = data.jobs || [];
+      }
+    } catch (e) {
+      jobs = [];
+    }
+    const activeJobs = jobs.filter((job) => job.status !== 'closed').length;
+    const pending = jobs.reduce((sum, job) => sum + (Number(job.pendingCount) || 0), 0);
+    const hired = jobs.reduce((sum, job) => sum + (Number(job.hiredCount) || 0), 0);
+    this.setData({
+      stats: {
+        activeJobs,
+        pending,
+        communicating: 0,
+        hired,
+      },
+      recentJobs: jobs.slice(0, 3),
+      statsLoading: false,
+    });
   },
 
   loadEmployerInfo() {

@@ -1,43 +1,47 @@
 // 职位页
+const { STATUS_TEXT } = require('../../../utils/constants');
+
 Page({
   data: {
     activeTab: 'all',
+    loading: false,
     tabs: [
       { key: 'all', label: '全部' },
-      { key: 'active', label: '招聘中' },
-      { key: 'closed', label: '已关闭' },
+      { key: 'active', label: STATUS_TEXT.job.active },
+      { key: 'closed', label: STATUS_TEXT.job.closed },
     ],
-    jobs: [
-      {
-        id: '1',
-        title: '养老院护工',
-        salary: '160元/天',
-        location: '南京鼓楼区湖南路',
-        workTime: '8:00-18:00 周一至周五',
-        recruitCount: 2,
-        hiredCount: 0,
-        requirements: '身体健康，有照护经验',
-        status: 'active',
-        pendingCount: 3,
-      },
-      {
-        id: '2',
-        title: '保洁阿姨',
-        salary: '120元/天',
-        location: '南京栖霞区仙林',
-        workTime: '9:00-17:00',
-        recruitCount: 1,
-        hiredCount: 0,
-        requirements: '认真负责，有保洁经验',
-        status: 'active',
-        pendingCount: 0,
-      },
-    ],
+    jobs: [],
     filteredJobs: [],
   },
 
   onLoad() {
-    this.filterJobs('all');
+    this.loadJobs();
+  },
+
+  onShow() {
+    this.loadJobs();
+  },
+
+  async loadJobs() {
+    this.setData({ loading: true });
+    try {
+      const result = await wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'listEmployerJobs',
+        },
+      });
+      const data = result.result || {};
+      const jobs = data.success ? (data.jobs || []) : [];
+      this.setData({ jobs });
+      this.filterJobs(this.data.activeTab);
+    } catch (e) {
+      this.setData({ jobs: [] });
+      this.filterJobs(this.data.activeTab);
+      wx.showToast({ title: '岗位加载失败', icon: 'none' });
+    } finally {
+      this.setData({ loading: false });
+    }
   },
 
   onTabTap(e) {
@@ -59,7 +63,9 @@ Page({
 
   onJobTap(e) {
     const { id } = e.currentTarget.dataset;
-    // TODO: 打开岗位详情或编辑
+    wx.navigateTo({
+      url: `/pages/employer/job-edit/index?id=${id}`,
+    });
   },
 
   onEditJob(e) {
@@ -76,27 +82,36 @@ Page({
       content: '关闭后求职者将看不到此岗位',
       success: (res) => {
         if (res.confirm) {
-          // 更新状态
-          const jobs = this.data.jobs.map(job => 
-            job.id === id ? { ...job, status: 'closed' } : job
-          );
-          this.setData({ jobs });
-          this.filterJobs(this.data.activeTab);
-          wx.showToast({ title: '已关闭', icon: 'success' });
+          this.updateJobStatus(id, 'closed', '已关闭');
         }
       },
     });
-    e.stopPropagation();
   },
 
   onRestoreJob(e) {
     const { id } = e.currentTarget.dataset;
-    const jobs = this.data.jobs.map(job => 
-      job.id === id ? { ...job, status: 'active' } : job
-    );
-    this.setData({ jobs });
-    this.filterJobs(this.data.activeTab);
-    wx.showToast({ title: '已恢复招聘', icon: 'success' });
-    e.stopPropagation();
+    this.updateJobStatus(id, 'active', '已恢复招聘');
+  },
+
+  async updateJobStatus(id, status, toastTitle) {
+    try {
+      const result = await wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'updateEmployerJobStatus',
+          id,
+          status,
+        },
+      });
+      const data = result.result || {};
+      if (!data.success) {
+        wx.showToast({ title: data.errorMessage || '更新失败', icon: 'none' });
+        return;
+      }
+      wx.showToast({ title: toastTitle, icon: 'success' });
+      this.loadJobs();
+    } catch (e) {
+      wx.showToast({ title: '更新失败，请检查云开发', icon: 'none' });
+    }
   },
 });

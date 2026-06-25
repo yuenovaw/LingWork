@@ -13,12 +13,17 @@
     </view>
   </view>
 
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="loading-state">
+    <text class="loading-text">加载中...</text>
+  </view>
+
   <!-- 岗位列表 -->
-  <view class="job-list">
+  <view wx:else class="job-list">
     <view
       wx:for="{{filteredJobs}}"
       wx:key="id"
-      class="job-card"
+      class="job-card {{item.status === 'closed' ? 'job-closed' : ''}}"
       data-id="{{item.id}}"
       bindtap="onJobTap"
     >
@@ -61,19 +66,19 @@
           <view
             class="action-btn edit-btn"
             data-id="{{item.id}}"
-            bindtap="onEditJob"
+            catchtap="onEditJob"
           >编辑</view>
           <view
             wx:if="{{item.status === 'active'}}"
             class="action-btn close-btn"
             data-id="{{item.id}}"
-            bindtap="onCloseJob"
+            catchtap="onCloseJob"
           >关闭</view>
           <view
             wx:else
             class="action-btn restore-btn"
             data-id="{{item.id}}"
-            bindtap="onRestoreJob"
+            catchtap="onRestoreJob"
           >恢复招聘</view>
         </view>
       </view>
@@ -81,8 +86,8 @@
 
     <!-- 空状态 -->
     <view wx:if="{{filteredJobs.length === 0}}" class="empty-state">
-      <text class="empty-icon">📭</text>
-      <text class="empty-text">暂无岗位</text>
+      <text class="empty-title">暂无岗位</text>
+      <text class="empty-text">{{activeTab === 'active' ? '点右上角"+ 发布"添加新岗位' : '已关闭的岗位会显示在这里'}}</text>
     </view>
   </view>
 </view>

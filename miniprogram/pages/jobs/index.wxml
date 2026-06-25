@@ -2,8 +2,12 @@
   <view class="top-hero">
     <view class="header">
       <view>
-        <view class="hello">{{role === 'worker' ? displayName + '，今天想找什么活？' : '雇主端暂未展开'}}</view>
-        <view class="sub">{{role === 'worker' ? city + ' · 优先显示近处、白天、轻松的工作' : '当前只保留身份入口，后续和雇主端整合'}}</view>
+        <view class="hello">{{role === 'worker' ? displayName + '，今天想找什么活？' : '欢迎，雇主'}}</view>
+        <view class="sub" wx:if="{{role === 'worker'}}">
+          <text class="loc-dot">📍</text>
+          <text>{{city}} · 优先显示近处、白天、轻松的工作</text>
+        </view>
+        <view class="sub" wx:else>发布职位、管理报名请切换到雇主端</view>
       </view>
       <button class="role-btn" bindtap="switchRole">{{role === 'worker' ? '找工者' : '雇主'}}</button>
     </view>
@@ -43,7 +47,8 @@
 
     <view class="job-list">
       <view class="list-title">为您推荐 {{jobs.length}} 个工作</view>
-      <view wx:if="{{jobs.length === 0}}" class="empty">
+      <view wx:if="{{loading}}" class="loading-tip">正在加载工作信息...</view>
+      <view wx:elif="{{jobs.length === 0}}" class="empty">
         <view class="empty-title">没有找到合适工作</view>
         <view class="empty-text">换个关键词，或点上面的分类再看看。</view>
       </view>
@@ -67,8 +72,8 @@
   </block>
 
   <view wx:else class="employer-placeholder">
-    <view class="placeholder-title">雇主端留作后续整合</view>
-    <view class="placeholder-text">这里先不做发布岗位、查看报名等功能，避免和合作方重复开发。当前项目重点先打磨找工者体验。</view>
-    <button bindtap="backToWorker">切回找工者</button>
+    <view class="placeholder-title">当前为找工者端</view>
+    <view class="placeholder-text">发布职位、查看报名请切换到雇主端。</view>
+    <button bindtap="backToWorker">返回找工者</button>
   </view>
 </view>

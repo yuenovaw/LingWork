@@ -1,148 +1,258 @@
-<view class="voice-page">
-  <view class="topbar">
-    <button class="top-icon" bindtap="skipOnboarding">×</button>
-    <view class="scene-pill">
-      <text class="scene-dot"></text>
-      <text>语音登记</text>
+<view class="page">
+
+  <!-- 顶部导航 -->
+  <view class="topnav">
+    <button class="nav-close" bindtap="onNavClose">
+      <text>{{mode === 'select' ? '✕' : '←'}}</text>
+    </button>
+    <view class="nav-mid">
+      <text class="nav-title">{{mode === 'manual' ? '填写我的资料' : (mode === 'ai' ? 'AI帮我登记' : '登记找工资料')}}</text>
     </view>
-    <button class="text-mode" bindtap="toggleKeyboard">字</button>
+    <view wx:if="{{mode !== 'select'}}" class="nav-badge">{{progressText}}</view>
+    <view wx:else style="width:84rpx;"></view>
   </view>
 
-  <view class="stage {{recording || thinking || speaking ? 'active' : ''}} {{recording ? 'recording' : ''}} {{speaking ? 'speaking' : ''}}">
-    <view wx:if="{{!completed}}" class="dialog-zone">
-      <scroll-view
-        class="transcript-card"
-        scroll-y
-        scroll-into-view="{{scrollIntoView}}"
-        scroll-with-animation
-        show-scrollbar="{{false}}"
-      >
-        <view class="transcript-inner">
-          <view
-            wx:for="{{messages}}"
-            wx:key="id"
-            id="{{item.id}}"
-            class="line {{item.role === 'user' ? 'user' : 'ai'}}"
-          >
-            <text class="line-text">{{item.text}}</text>
-          </view>
-
-          <view wx:if="{{thinking}}" class="line ai thinking-line" id="thinking-line">
-            <text class="line-text">{{recognizing ? '正在识别您说的话...' : '正在整理，请稍等...'}}</text>
-          </view>
-
-          <view id="transcript-bottom" class="transcript-anchor"></view>
-        </view>
-      </scroll-view>
-    </view>
-
-    <view class="assistant-orb-wrap">
-      <view class="assistant-orb">
-        <canvas
-          id="siriOrbCanvas"
-          type="2d"
-          class="orb-canvas"
-        ></canvas>
+  <!-- ── 选择方式 ── -->
+  <view wx:if="{{mode === 'select' && !completed}}" class="select-screen">
+    <text class="select-lead">请问您想怎么登记找工资料？</text>
+    <view class="select-cards">
+      <view class="select-card" bindtap="chooseMode" data-mode="ai">
+        <text class="card-icon">🤖</text>
+        <text class="card-title">AI帮我填</text>
+        <text class="card-desc">像打电话一样说话，AI帮整理</text>
       </view>
-      <view class="orb-ring ring-one"></view>
-      <view class="orb-ring ring-two"></view>
+      <view class="select-card" bindtap="chooseMode" data-mode="manual">
+        <text class="card-icon">✍️</text>
+        <text class="card-title">我自己填</text>
+        <text class="card-desc">逐项填写，一目了然</text>
+      </view>
     </view>
-
-    <view class="main-status" wx:if="{{recording}}">我在听您说</view>
-    <view class="main-status" wx:elif="{{recognizing}}">正在听写成文字</view>
-    <view class="main-status" wx:elif="{{thinking}}">正在整理资料</view>
-    <view class="main-status" wx:elif="{{speaking}}">正在播报回复</view>
-    <view class="main-status" wx:else>像打电话一样说</view>
-    <view class="sub-status">{{progressText}}</view>
-
-    <view class="status-dots {{recording || speaking || thinking ? 'active' : ''}}">
-      <view></view><view></view><view></view><view></view>
-    </view>
+    <button class="select-skip" bindtap="skipOnboarding">先跳过，直接找工作</button>
   </view>
 
-  <view wx:if="{{!completed}}" class="quick-zone">
-    <view class="quick-say" bindtap="useQuickReply" data-text="我62岁，想在南京鼓楼附近找门卫，上午有空">
-      <text class="quick-title">不会说？点一句试试</text>
-      <text class="quick-text">我62岁，想在南京鼓楼附近找门卫，上午有空</text>
+  <!-- ── AI 聊天气泡 ── -->
+  <scroll-view
+    wx:if="{{mode === 'ai' && !completed}}"
+    class="chat"
+    scroll-y
+    scroll-into-view="{{scrollIntoView}}"
+    scroll-with-animation
+    show-scrollbar="{{false}}"
+  >
+    <view class="chat-inner">
+      <view
+        wx:for="{{messages}}"
+        wx:key="id"
+        id="{{item.id}}"
+        class="row {{item.role === 'user' ? 'row-right' : 'row-left'}}"
+      >
+        <view class="bubble {{item.role === 'user' ? 'bubble-user' : 'bubble-ai'}}">
+          <text class="bubble-text">{{item.text}}</text>
+        </view>
+      </view>
+      <view wx:if="{{thinking}}" class="row row-left" id="thinking-line">
+        <view class="bubble bubble-ai bubble-typing">
+          <view class="dot"></view>
+          <view class="dot"></view>
+          <view class="dot"></view>
+        </view>
+      </view>
+      <view id="transcript-bottom" style="height:1rpx;"></view>
     </view>
-  </view>
+  </scroll-view>
 
-  <scroll-view wx:if="{{completed}}" class="summary-panel" scroll-y>
+  <!-- ── 完成后资料摘要（AI / 手填共用） ── -->
+  <scroll-view wx:if="{{completed}}" class="summary-scroll" scroll-y>
     <view class="summary">
       <view class="summary-title">资料整理好了</view>
-      <view class="summary-subtitle">请您看一下，确认后就能去找工作。</view>
+      <view class="summary-sub">请确认，然后去找工作。</view>
       <view class="summary-list">
         <view class="summary-row"><text>称呼</text><text>{{summary.name}}</text></view>
-        <view class="summary-row"><text>年龄</text><text>{{summary.age}}</text></view>
+        <view class="summary-row"><text>年龄</text><text>{{summary.age}}岁</text></view>
         <view class="summary-row"><text>地区</text><text>{{summary.city}}</text></view>
         <view class="summary-row"><text>想找</text><text>{{summary.expectedJobs}}</text></view>
         <view class="summary-row"><text>时间</text><text>{{summary.availableTime}}</text></view>
         <view class="summary-row"><text>经验</text><text>{{summary.experience}}</text></view>
         <view wx:if="{{summary.healthStatus}}" class="summary-row"><text>身体</text><text>{{summary.healthStatus}}</text></view>
       </view>
-      <view class="resume">{{summary.resumeText}}</view>
+      <view class="resume-box">{{summary.resumeText}}</view>
       <view class="safe-note">手机号不会直接公开，只有双方同意后才会展示。</view>
-      <view class="summary-actions">
+      <view class="summary-btns">
         <button bindtap="regenerateSummary">重新整理</button>
-        <button class="primary" bindtap="goJobs">去找工作</button>
+        <button class="btn-go" bindtap="goJobs">去找工作 →</button>
       </view>
     </view>
   </scroll-view>
 
-  <view class="bottom-panel" wx:if="{{!completed}}">
-    <view wx:if="{{showKeyboard}}" class="keyboard-row">
-      <text class="keyboard-icon">字</text>
-      <input
-        class="text-input"
-        value="{{inputText}}"
-        placeholder="输入想说的话"
-        bindinput="onInput"
-        confirm-type="send"
-        bindconfirm="sendText"
-      />
-      <button class="send-btn" bindtap="sendText">发送</button>
+  <!-- ── AI 球体 ── -->
+  <view wx:if="{{mode === 'ai' && !completed}}" class="orb-stage">
+    <view class="orb-glow-ring {{recording ? 'glow-rec' : ''}} {{speaking ? 'glow-speak' : ''}} {{thinking ? 'glow-think' : ''}}"></view>
+    <view class="orb-wrap">
+      <canvas id="siriOrbCanvas" type="2d" class="orb-canvas"></canvas>
     </view>
-
-    <view wx:if="{{!showKeyboard}}" class="helper-text">
-      <text wx:if="{{recording || recognizing}}">{{voiceStatus}}</text>
-      <text wx:elif="{{speaking}}">{{speechStatus}}</text>
-      <text wx:else>按住中间按钮，说完松开</text>
+    <view class="orb-status">
+      <text wx:if="{{recording}}">正在听您说...</text>
+      <text wx:elif="{{recognizing}}">正在识别语音</text>
+      <text wx:elif="{{thinking}}">AI 正在整理中</text>
+      <text wx:elif="{{speaking}}">正在播报回复</text>
+      <text wx:else>像打电话一样说话</text>
     </view>
+  </view>
 
-    <view wx:if="{{!showKeyboard}}" class="control-row">
-      <button class="round-btn" bindtap="toggleSpeaker">
-        <text wx:if="{{speakerEnabled}}" class="round-icon">音</text>
-        <text wx:else class="round-icon">静</text>
-        <text wx:if="{{speakerEnabled}}">静音</text>
-        <text wx:else>播报</text>
+  <!-- ── 快捷操作行（AI 模式） ── -->
+  <view wx:if="{{mode === 'ai' && !completed}}" class="quick-row">
+    <button
+      class="btn-loc"
+      bindtap="autoFillLocation"
+      disabled="{{locating || thinking}}"
+    >
+      <text>📍</text>
+      <text>{{locating ? '定位中...' : '一键定位'}}</text>
+    </button>
+    <view class="btn-example" bindtap="useQuickReply" data-text="我62岁，想在南京鼓楼附近找门卫，上午有空">
+      <text class="example-label">示例</text>
+      <text class="example-text">我62岁，鼓楼找门卫</text>
+    </view>
+  </view>
+
+  <!-- ── 语音控制栏（AI 模式） ── -->
+  <view wx:if="{{mode === 'ai' && !completed && !showKeyboard}}" class="voice-bar safe-area-bottom">
+    <view class="ctrl-row">
+      <button class="side-btn" bindtap="toggleSpeaker">
+        <view class="side-icon-box">
+          <text class="side-icon">{{speakerEnabled ? '音' : '静'}}</text>
+        </view>
+        <text class="side-label">{{speakerEnabled ? '静音' : '开音'}}</text>
       </button>
 
       <button
-        class="talk-btn {{recording ? 'recording' : ''}}"
+        class="mic-btn {{recording ? 'mic-on' : ''}}"
         bindtouchstart="startRecord"
         bindtouchend="stopRecord"
         bindtouchcancel="cancelRecord"
       >
-        <text class="mic-mark">麦</text>
-        <text wx:if="{{recording}}">松开发送</text>
-        <text wx:else>按住说话</text>
+        <view class="mic-core">
+          <text class="mic-char">麦</text>
+        </view>
+        <text class="mic-label">{{recording ? '松开发送' : '按住说话'}}</text>
       </button>
 
-      <button class="round-btn" bindtap="toggleKeyboard">
-        <text class="round-icon">字</text>
-        <text wx:if="{{showKeyboard}}">收起</text>
-        <text wx:else>打字</text>
-      </button>
-    </view>
-
-    <view wx:else class="keyboard-actions">
-      <view class="keyboard-tip">文字输入</view>
-      <button class="keyboard-mode-btn" bindtap="toggleKeyboard">
-        <text class="keyboard-mode-icon">麦</text>
-        <text>切回语音</text>
+      <button class="side-btn" bindtap="toggleKeyboard">
+        <view class="side-icon-box">
+          <text class="side-icon">字</text>
+        </view>
+        <text class="side-label">打字</text>
       </button>
     </view>
-
-    <button wx:if="{{!showKeyboard}}" class="hangup-btn" bindtap="skipOnboarding">先不登记，直接找工作</button>
+    <button class="skip-btn" bindtap="skipOnboarding">先跳过，直接找工作</button>
   </view>
+
+  <!-- ── 文字输入栏（AI 模式） ── -->
+  <view wx:if="{{mode === 'ai' && !completed && showKeyboard}}" class="text-bar safe-area-bottom">
+    <view class="text-row">
+      <input
+        class="text-input"
+        value="{{inputText}}"
+        placeholder="输入想说的话..."
+        placeholder-class="text-ph"
+        bindinput="onInput"
+        confirm-type="send"
+        bindconfirm="sendText"
+        focus="{{showKeyboard}}"
+      />
+      <button class="send-btn" bindtap="sendText">发送</button>
+    </view>
+    <button class="switch-btn" bindtap="toggleKeyboard">🎤  切回语音</button>
+  </view>
+
+  <!-- ── 手填表单 ── -->
+  <scroll-view wx:if="{{mode === 'manual' && !completed}}" class="form-scroll" scroll-y>
+    <view class="form-body">
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">姓名</text><text class="req"> *</text>
+        </view>
+        <input class="form-input" value="{{manualForm.name}}" placeholder="请输入您的姓名" data-field="name" bindinput="onFormInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">年龄</text><text class="req"> *</text>
+        </view>
+        <input class="form-input" value="{{manualForm.age}}" placeholder="如：62" type="number" data-field="age" bindinput="onFormInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">找工地区</text><text class="req"> *</text>
+        </view>
+        <view class="form-loc-row">
+          <input class="form-input form-input-flex" value="{{manualForm.city}}" placeholder="如：南京鼓楼附近" data-field="city" bindinput="onFormInput" />
+          <button class="form-loc-btn" bindtap="autoFillLocationManual" disabled="{{locating}}">
+            📍 {{locating ? '定位中' : '定位'}}
+          </button>
+        </view>
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">想找的工作</text><text class="req"> *</text>
+        </view>
+        <view class="chip-row">
+          <view
+            wx:for="{{jobOptions}}"
+            wx:key="*this"
+            class="chip {{manualForm.expectedJobs && manualForm.expectedJobs.indexOf(item) !== -1 ? 'chip-on' : ''}}"
+            bindtap="toggleJobChip"
+            data-val="{{item}}"
+          >{{item}}</view>
+        </view>
+        <input class="form-input form-input-mt" value="{{manualForm.expectedJobs}}" placeholder="或手动输入" data-field="expectedJobs" bindinput="onFormInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">可上班时间</text><text class="req"> *</text>
+        </view>
+        <view class="chip-row">
+          <view
+            wx:for="{{timeOptions}}"
+            wx:key="*this"
+            class="chip {{manualForm.availableTime && manualForm.availableTime.indexOf(item) !== -1 ? 'chip-on' : ''}}"
+            bindtap="toggleTimeChip"
+            data-val="{{item}}"
+          >{{item}}</view>
+        </view>
+        <input class="form-input form-input-mt" value="{{manualForm.availableTime}}" placeholder="或手动输入" data-field="availableTime" bindinput="onFormInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">手机号</text><text class="req"> *</text>
+        </view>
+        <input class="form-input" value="{{manualForm.phone}}" placeholder="11位手机号" type="number" maxlength="11" data-field="phone" bindinput="onFormInput" />
+        <text class="form-note">不会直接公开，双方同意后才展示</text>
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">工作经验</text><text class="form-opt">  选填</text>
+        </view>
+        <input class="form-input" value="{{manualForm.experience}}" placeholder="如：做过10年门卫，身体健康" data-field="experience" bindinput="onFormInput" />
+      </view>
+
+      <view class="form-row">
+        <view class="form-label-row">
+          <text class="form-label">身体情况</text><text class="form-opt">  选填</text>
+        </view>
+        <input class="form-input" value="{{manualForm.healthStatus}}" placeholder="如：能久站，不能搬重物" data-field="healthStatus" bindinput="onFormInput" />
+      </view>
+
+      <button class="form-submit" bindtap="submitManualForm">提交资料</button>
+      <button class="form-skip" bindtap="skipOnboarding">先跳过，直接找工作</button>
+
+    </view>
+  </scroll-view>
+
 </view>

@@ -22,22 +22,30 @@
       data-id="{{item.id}}"
       bindtap="onCandidateTap"
     >
-      <view class="candidate-info">
-        <text class="candidate-name">{{item.name}} · {{item.age}}岁</text>
-        <text class="candidate-meta">意向：{{item.jobTitle}}</text>
-        <text class="candidate-time">{{item.time}}</text>
-        <text class="candidate-intro">"{{item.summary}}"</text>
-      </view>
-      <view class="candidate-action">
-        <text class="candidate-action-text">查看详情</text>
-        <text class="candidate-action-arrow">→</text>
+      <view class="candidate-avatar">{{item.name.slice(0,1)}}</view>
+      <view class="candidate-body">
+        <view class="candidate-header">
+          <text class="candidate-name">{{item.name}}</text>
+          <text class="candidate-age">{{item.age}}岁</text>
+        </view>
+        <text class="candidate-meta">{{item.jobTitle || '求职者'}}</text>
+        <text class="candidate-intro">{{item.summary}}</text>
+        <view class="candidate-footer">
+          <text class="candidate-time">{{item.time}}</text>
+          <text class="candidate-cta">查看详情 ›</text>
+        </view>
       </view>
     </view>
 
+    <!-- 加载中 -->
+    <view wx:if="{{loading}}" class="loading-state">
+      <text class="loading-text">加载中...</text>
+    </view>
+
     <!-- 空状态 -->
-    <view wx:if="{{filteredCandidates.length === 0}}" class="empty-state">
-      <text class="empty-icon">📭</text>
-      <text class="empty-text">暂无候选人</text>
+    <view wx:elif="{{filteredCandidates.length === 0}}" class="empty-state">
+      <text class="empty-title">暂无候选人</text>
+      <text class="empty-text">求职者报名后会出现在这里</text>
     </view>
   </view>
 </view>

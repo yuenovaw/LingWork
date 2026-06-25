@@ -47,8 +47,8 @@
     <view class="section-title">雇主信息</view>
     <view class="body">{{job.employerName}} · {{job.employerContact}}</view>
     <view wx:if="{{canShowContact}}" class="contact-card">
-      <view>电话：{{job.contactPhone}}</view>
-      <view>微信：{{job.wechatId}}</view>
+      <view>电话：{{application.employerPhone || job.contactPhone}}</view>
+      <view wx:if="{{application.wechatId || job.wechatId}}">微信：{{application.wechatId || job.wechatId}}</view>
       <button bindtap="copyPhone">复制电话</button>
     </view>
     <view wx:else class="locked">联系方式暂不显示。报名后按页面提示同意联系，雇主也同意后就能看到电话。</view>
@@ -56,9 +56,10 @@
 
   <view class="bottom-space"></view>
   <view class="bottom-bar">
-    <button wx:if="{{!application}}" class="primary" bindtap="applyJob">我要报名这个工作</button>
+    <button wx:if="{{loadingApplication}}" class="secondary">正在读取报名状态...</button>
+    <button wx:elif="{{!application}}" class="primary" bindtap="applyJob">我要报名这个工作</button>
     <button wx:elif="{{application && !application.workerAgreed}}" class="primary" bindtap="agreeContact">下一步：我同意联系</button>
-    <button wx:elif="{{application && application.workerAgreed && !application.employerAgreed}}" class="secondary" bindtap="simulateEmployerAgree">等待雇主同意（演示）</button>
+    <button wx:elif="{{application && application.workerAgreed && !application.employerAgreed}}" class="secondary">等待雇主同意</button>
     <button wx:else class="primary" bindtap="copyPhone">复制雇主电话</button>
   </view>
 </view>

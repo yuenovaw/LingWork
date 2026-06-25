@@ -3,7 +3,7 @@
   <view class="title">您今天想做什么？</view>
   <view class="sub">选择后，找龄工只给您展示需要的功能，页面会更简单。</view>
 
-  <view class="role-card {{selectedRole === 'employer' ? 'active' : ''}}" data-role="employer" bindtap="selectRole">
+  <view class="role-card employer-card {{selectedRole === 'employer' ? 'active' : ''}}" data-role="employer" bindtap="selectRole">
     <view class="icon briefcase">
       <view class="handle"></view>
       <view class="case"></view>
@@ -15,7 +15,7 @@
     <view class="arrow">›</view>
   </view>
 
-  <view class="role-card {{selectedRole === 'worker' ? 'active' : ''}}" data-role="worker" bindtap="selectRole">
+  <view class="role-card worker-card {{selectedRole === 'worker' ? 'active' : ''}}" data-role="worker" bindtap="selectRole">
     <view class="icon person-icon">
       <view class="head"></view>
       <view class="shoulder"></view>
@@ -32,6 +32,6 @@
     <view>我已阅读并同意 <text data-type="user" catchtap="openAgreement">《用户协议》</text>、<text data-type="service" catchtap="openAgreement">《服务协议》</text> 和 <text data-type="privacy" catchtap="openAgreement">《隐私政策》</text></view>
   </view>
 
-  <button class="next-btn {{selectedRole && agreed ? 'enabled' : ''}}" bindtap="nextStep">{{selectedRole && agreed ? '同意并继续' : '选择身份并同意协议'}}</button>
+  <button class="next-btn {{selectedRole && agreed ? 'enabled' : ''}} {{selectedRole === 'employer' ? 'employer-next' : ''}} {{selectedRole === 'worker' ? 'worker-next' : ''}}" bindtap="nextStep">{{selectedRole && agreed ? '同意并继续' : '选择身份并同意协议'}}</button>
   <view class="helper">协议需要至少阅读 10 秒，保护您和雇主双方权益。</view>
 </view>

@@ -8,9 +8,22 @@
 
   <view class="guide-card">
     <view class="guide-title">进入找龄工</view>
-    <view class="guide-sub">请先填写联系电话。号码仅用于报名沟通，不会公开展示。</view>
+    <view class="guide-sub">填写姓名和手机号，后续找工作时不用重复填写。我们会严格保护您的个人隐私。</view>
 
     <view class="phone-field">
+      <text class="phone-label">姓名</text>
+      <input
+        class="phone-input"
+        type="text"
+        maxlength="10"
+        placeholder="请输入您的姓名"
+        placeholder-class="phone-placeholder"
+        value="{{name}}"
+        bindinput="onNameInput"
+      />
+    </view>
+
+    <view class="phone-field" style="margin-top:16rpx;">
       <text class="phone-label">手机号</text>
       <input
         class="phone-input"
@@ -24,7 +37,7 @@
     </view>
 
     <button
-      class="primary-action enter-action {{phoneNumber.length === 11 ? 'ready' : ''}}"
+      class="primary-action enter-action {{name.length >= 2 && phoneNumber.length === 11 ? 'ready' : ''}}"
       bindtap="onEntryTap"
     >
       <view class="action-copy">
@@ -33,7 +46,7 @@
       </view>
     </button>
 
-    <view class="privacy-note">我们会保护您的联系方式，双方确认后再联系。</view>
+    <view class="privacy-note">🔒 我们严格保护您的个人隐私，手机号双方确认后才会展示。</view>
   </view>
 
   <view class="promise-list">

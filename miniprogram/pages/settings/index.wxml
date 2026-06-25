@@ -9,7 +9,7 @@
     <view class="setting-row" data-name="修改基础资料" bindtap="tapItem">
       <view>
         <view class="row-title">基础资料</view>
-        <view class="row-sub">{{worker.gender}} · {{worker.age}}岁 · {{worker.city}}{{worker.district}}</view>
+        <view class="row-sub">{{worker.age ? (worker.age + '岁') : ''}}{{worker.age && worker.city ? ' · ' : ''}}{{worker.city || (worker.age ? '' : '未填写')}}</view>
       </view>
       <text>›</text>
     </view>
@@ -36,7 +36,7 @@
         <view class="row-title">双方同意后才展示联系方式</view>
         <view class="row-sub">建议保持开启，避免手机号被随意看到</view>
       </view>
-      <switch checked="{{settings.privacyContact}}" data-key="privacyContact" bindchange="toggleSetting" color="#1da56b" />
+      <switch checked="{{settings.privacyContact}}" data-key="privacyContact" bindchange="toggleSetting" color="#3f7fd0" />
     </view>
     <view class="safe-note">不要提前交押金、保证金、服装费。线下见面建议告诉家人。</view>
   </view>
@@ -48,14 +48,14 @@
         <view class="row-title">报名进展提醒</view>
         <view class="row-sub">雇主同意联系时提醒您</view>
       </view>
-      <switch checked="{{settings.applicationNotice}}" data-key="applicationNotice" bindchange="toggleSetting" color="#1da56b" />
+      <switch checked="{{settings.applicationNotice}}" data-key="applicationNotice" bindchange="toggleSetting" color="#3f7fd0" />
     </view>
     <view class="switch-row">
       <view>
         <view class="row-title">新工作提醒</view>
         <view class="row-sub">附近有合适工作时提醒</view>
       </view>
-      <switch checked="{{settings.jobNotice}}" data-key="jobNotice" bindchange="toggleSetting" color="#1da56b" />
+      <switch checked="{{settings.jobNotice}}" data-key="jobNotice" bindchange="toggleSetting" color="#3f7fd0" />
     </view>
   </view>
 

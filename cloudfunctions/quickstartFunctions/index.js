@@ -7,6 +7,7 @@ cloud.init({
 });
 
 const db = cloud.database();
+const _ = db.command;
 
 const requiredProfileFields = [{
     key: "name",
@@ -724,6 +725,558 @@ const saveManualPhone = async (event) => {
   };
 };
 
+function normalizeEmployerJob(data = {}) {
+  return {
+    title: String(data.title || "").trim().slice(0, 40),
+    salary: String(data.salary || "").trim().slice(0, 40),
+    location: String(data.location || "").trim().slice(0, 80),
+    workTime: String(data.workTime || "").trim().slice(0, 80),
+    recruitCount: Number(data.recruitCount) || 1,
+    ageRequirement: String(data.ageRequirement || "").trim().slice(0, 40),
+    requirements: String(data.requirements || "").trim().slice(0, 200),
+    description: String(data.description || "").trim().slice(0, 500),
+    phone: String(data.phone || "").replace(/\s+/g, ""),
+  };
+}
+
+function validateEmployerJob(job) {
+  if (!job.title) return "请输入岗位名称";
+  if (!job.salary) return "请输入薪资待遇";
+  if (!job.location) return "请输入工作地点";
+  if (!job.workTime) return "请输入工作时间";
+  if (!job.recruitCount) return "请输入招聘人数";
+  if (!job.requirements) return "请输入岗位要求";
+  if (!/^1[3-9]\d{9}$/.test(job.phone)) return "请输入正确手机号";
+  return "";
+}
+
+async function ensureCollection(name) {
+  try {
+    await db.createCollection(name);
+  } catch (e) {
+    // The collection may already exist; callers can continue.
+  }
+}
+
+function mapEmployerJob(item = {}) {
+  return {
+    id: item._id,
+    employerOpenid: item.openid || "",
+    title: item.title || "",
+    salary: item.salary || "",
+    location: item.location || "",
+    workTime: item.workTime || "",
+    recruitCount: item.recruitCount || 1,
+    hiredCount: item.hiredCount || 0,
+    ageRequirement: item.ageRequirement || "",
+    requirements: item.requirements || "",
+    description: item.description || "",
+    phone: item.phone || "",
+    status: item.status || "active",
+    pendingCount: item.pendingCount || 0,
+    createdAt: item.createdAt || null,
+    updatedAt: item.updatedAt || null,
+  };
+}
+
+function maskPhone(phone) {
+  const value = String(phone || "");
+  return /^1[3-9]\d{9}$/.test(value) ? `${value.slice(0, 3)}****${value.slice(7)}` : "";
+}
+
+function normalizeApplicationJob(job = {}) {
+  return {
+    id: String(job.id || "").trim(),
+    employerOpenid: String(job.employerOpenid || "").trim(),
+    title: String(job.title || "").trim().slice(0, 40),
+    salary: String(job.salary || "").trim().slice(0, 40),
+    location: String(job.location || "").trim().slice(0, 80),
+    employerName: String(job.employerName || "平台雇主").trim().slice(0, 40),
+    employerContact: String(job.employerContact || "雇主").trim().slice(0, 40),
+    employerPhone: String(job.contactPhone || job.phone || "").replace(/\s+/g, ""),
+    wechatId: String(job.wechatId || "").trim().slice(0, 60),
+    dailyInsurance: job.urgent ? "provided" : "pending",
+  };
+}
+
+function normalizeApplicationWorker(worker = {}) {
+  const phone = String(worker.phone || "").replace(/\s+/g, "");
+  return {
+    name: String(worker.name || "求职者").trim().slice(0, 20),
+    age: String(worker.age || "").trim().slice(0, 8),
+    phone,
+    maskedPhone: maskPhone(phone),
+    location: String(worker.city || worker.location || "").trim().slice(0, 80),
+    expectedJobs: String(worker.expectedJobs || "").trim().slice(0, 120),
+    availableTime: String(worker.availableTime || "").trim().slice(0, 120),
+    resumeText: String(worker.resumeText || "").trim().slice(0, 500),
+  };
+}
+
+function mapApplication(item = {}) {
+  const workerPhone = item.workerPhone || "";
+  const employerPhone = item.employerPhone || "";
+  return {
+    id: item._id || item.id || "",
+    jobId: item.jobId || "",
+    jobTitle: item.jobTitle || "",
+    salary: item.salary || "",
+    location: item.location || "",
+    employerName: item.employerName || "平台雇主",
+    employerContact: item.employerContact || "雇主",
+    employerPhone,
+    employerPhoneMasked: maskPhone(employerPhone),
+    wechatId: item.wechatId || "",
+    dailyInsurance: item.dailyInsurance || "pending",
+    workerName: item.workerName || "求职者",
+    workerAge: item.workerAge || "",
+    workerPhone,
+    workerPhoneMasked: item.workerPhoneMasked || maskPhone(workerPhone),
+    workerLocation: item.workerLocation || "",
+    expectedJobs: item.expectedJobs || "",
+    availableTime: item.availableTime || "",
+    resumeText: item.resumeText || "",
+    workerAgreed: Boolean(item.workerAgreed),
+    employerAgreed: Boolean(item.employerAgreed),
+    status: item.status || "pending",
+    createdAt: item.createdAt || null,
+    updatedAt: item.updatedAt || null,
+  };
+}
+
+const listEmployerJobs = async (event = {}) => {
+  const wxContext = cloud.getWXContext();
+  const isPublic = event.scope === "public";
+  try {
+    const query = isPublic ? {
+      status: "active",
+      deleted: _.neq(true),
+    } : {
+      openid: wxContext.OPENID,
+      deleted: _.neq(true),
+    };
+    const result = await db.collection("employer_jobs")
+      .where(query)
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .get();
+    return {
+      success: true,
+      jobs: (result.data || []).map(mapEmployerJob),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "获取岗位失败",
+      jobs: [],
+    };
+  }
+};
+
+const createEmployerJob = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const job = normalizeEmployerJob(event.job || event);
+  const errorMessage = validateEmployerJob(job);
+  if (errorMessage) {
+    return {
+      success: false,
+      errorMessage,
+    };
+  }
+
+  const data = Object.assign({}, job, {
+    openid: wxContext.OPENID,
+    appid: wxContext.APPID,
+    unionid: wxContext.UNIONID || "",
+    status: "active",
+    pendingCount: 0,
+    hiredCount: 0,
+    deleted: false,
+    createdAt: db.serverDate(),
+    updatedAt: db.serverDate(),
+  });
+
+  try {
+    const result = await db.collection("employer_jobs").add({ data });
+    return {
+      success: true,
+      job: mapEmployerJob(Object.assign({}, data, { _id: result._id })),
+    };
+  } catch (e) {
+    await ensureCollection("employer_jobs");
+    try {
+      const result = await db.collection("employer_jobs").add({ data });
+      return {
+        success: true,
+        job: mapEmployerJob(Object.assign({}, data, { _id: result._id })),
+      };
+    } catch (retryError) {
+      return {
+        success: false,
+        errorMessage: retryError.message || e.message || "发布岗位失败",
+      };
+    }
+  }
+};
+
+const updateEmployerJob = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const id = String(event.id || "");
+  if (!id) return { success: false, errorMessage: "job id is required" };
+  const job = normalizeEmployerJob(event.job || event);
+  const errorMessage = validateEmployerJob(job);
+  if (errorMessage) return { success: false, errorMessage };
+
+  try {
+    const result = await db.collection("employer_jobs")
+      .where({ _id: id, openid: wxContext.OPENID })
+      .update({ data: Object.assign({}, job, { updatedAt: db.serverDate() }) });
+    return {
+      success: result.stats.updated > 0,
+      updated: result.stats.updated,
+      errorMessage: result.stats.updated > 0 ? "" : "没有找到可更新的岗位",
+    };
+  } catch (e) {
+    return { success: false, errorMessage: e.message || "更新岗位失败" };
+  }
+};
+
+const updateEmployerJobStatus = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const id = String(event.id || "");
+  const status = event.status === "closed" ? "closed" : "active";
+  if (!id) {
+    return {
+      success: false,
+      errorMessage: "job id is required",
+    };
+  }
+
+  try {
+    const result = await db.collection("employer_jobs")
+      .where({
+        _id: id,
+        openid: wxContext.OPENID,
+      })
+      .update({
+        data: {
+          status,
+          updatedAt: db.serverDate(),
+        },
+      });
+    return {
+      success: result.stats.updated > 0,
+      updated: result.stats.updated,
+      status,
+      errorMessage: result.stats.updated > 0 ? "" : "没有找到可更新的岗位",
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "更新岗位失败",
+    };
+  }
+};
+
+const createApplication = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const job = normalizeApplicationJob(event.job || {});
+  const worker = normalizeApplicationWorker(event.worker || {});
+
+  if (!job.id || !job.title) {
+    return {
+      success: false,
+      errorMessage: "岗位信息不完整，请返回岗位列表重试",
+    };
+  }
+  if (!job.employerOpenid) {
+    return {
+      success: false,
+      errorMessage: "这是示例岗位，暂时不能报名。请报名雇主新发布的岗位。",
+    };
+  }
+
+  try {
+    const existed = await db.collection("applications")
+      .where({
+        jobId: job.id,
+        workerOpenid: wxContext.OPENID,
+        deleted: _.neq(true),
+      })
+      .limit(1)
+      .get();
+    if (existed.data && existed.data.length) {
+      return {
+        success: true,
+        existed: true,
+        application: mapApplication(existed.data[0]),
+      };
+    }
+  } catch (e) {
+    await ensureCollection("applications");
+  }
+
+  const data = {
+    jobId: job.id,
+    jobTitle: job.title,
+    salary: job.salary,
+    location: job.location,
+    employerOpenid: job.employerOpenid,
+    employerName: job.employerName,
+    employerContact: job.employerContact,
+    employerPhone: job.employerPhone,
+    wechatId: job.wechatId,
+    dailyInsurance: job.dailyInsurance,
+    workerOpenid: wxContext.OPENID,
+    workerName: worker.name,
+    workerAge: worker.age,
+    workerPhone: worker.phone,
+    workerPhoneMasked: worker.maskedPhone,
+    workerLocation: worker.location,
+    expectedJobs: worker.expectedJobs,
+    availableTime: worker.availableTime,
+    resumeText: worker.resumeText,
+    workerAgreed: false,
+    employerAgreed: false,
+    status: "pending",
+    deleted: false,
+    createdAt: db.serverDate(),
+    updatedAt: db.serverDate(),
+  };
+
+  try {
+    const result = await db.collection("applications").add({ data });
+    try {
+      await db.collection("employer_jobs").doc(job.id).update({
+        data: {
+          pendingCount: _.inc(1),
+          updatedAt: db.serverDate(),
+        },
+      });
+    } catch (e) {
+      // Application creation is the source of truth; count repair can happen later.
+    }
+    return {
+      success: true,
+      application: mapApplication(Object.assign({}, data, { _id: result._id })),
+    };
+  } catch (e) {
+    await ensureCollection("applications");
+    try {
+      const result = await db.collection("applications").add({ data });
+      return {
+        success: true,
+        application: mapApplication(Object.assign({}, data, { _id: result._id })),
+      };
+    } catch (retryError) {
+      return {
+        success: false,
+        errorMessage: retryError.message || e.message || "报名失败，请稍后重试",
+      };
+    }
+  }
+};
+
+const listWorkerApplications = async () => {
+  const wxContext = cloud.getWXContext();
+  try {
+    const result = await db.collection("applications")
+      .where({
+        workerOpenid: wxContext.OPENID,
+        deleted: _.neq(true),
+      })
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .get();
+    return {
+      success: true,
+      applications: (result.data || []).map(mapApplication),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "获取报名失败",
+      applications: [],
+    };
+  }
+};
+
+const listEmployerApplications = async () => {
+  const wxContext = cloud.getWXContext();
+  try {
+    const result = await db.collection("applications")
+      .where({
+        employerOpenid: wxContext.OPENID,
+        deleted: _.neq(true),
+      })
+      .orderBy("createdAt", "desc")
+      .limit(100)
+      .get();
+    return {
+      success: true,
+      applications: (result.data || []).map(mapApplication),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "获取候选人失败",
+      applications: [],
+    };
+  }
+};
+
+const updateApplicationAgreement = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const id = String(event.id || "");
+  const actor = event.actor === "employer" ? "employer" : "worker";
+  if (!id) {
+    return {
+      success: false,
+      errorMessage: "application id is required",
+    };
+  }
+
+  try {
+    const result = await db.collection("applications").doc(id).get();
+    const application = result.data || {};
+    const owned = actor === "employer" ?
+      application.employerOpenid === wxContext.OPENID :
+      application.workerOpenid === wxContext.OPENID;
+    if (!owned) {
+      return {
+        success: false,
+        errorMessage: "无权更新这条申请",
+      };
+    }
+
+    const patch = actor === "employer" ? { employerAgreed: true } : { workerAgreed: true };
+    const workerAgreed = actor === "worker" ? true : Boolean(application.workerAgreed);
+    const employerAgreed = actor === "employer" ? true : Boolean(application.employerAgreed);
+    patch.status = workerAgreed && employerAgreed ? "communicating" : (application.status || "pending");
+    patch.updatedAt = db.serverDate();
+
+    await db.collection("applications").doc(id).update({ data: patch });
+    return {
+      success: true,
+      application: mapApplication(Object.assign({}, application, patch, { _id: id })),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "更新申请失败",
+    };
+  }
+};
+
+const updateApplicationStatus = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const id = String(event.id || "");
+  const status = ["pending", "communicating", "hired", "rejected"].includes(event.status) ? event.status : "";
+  if (!id || !status) {
+    return {
+      success: false,
+      errorMessage: "申请状态不完整",
+    };
+  }
+
+  try {
+    const result = await db.collection("applications").doc(id).get();
+    const application = result.data || {};
+    if (application.employerOpenid !== wxContext.OPENID) {
+      return {
+        success: false,
+        errorMessage: "无权更新这条申请",
+      };
+    }
+    const patch = {
+      status,
+      updatedAt: db.serverDate(),
+    };
+    if (status === "communicating" || status === "hired") {
+      patch.employerAgreed = true;
+    }
+    await db.collection("applications").doc(id).update({ data: patch });
+    return {
+      success: true,
+      application: mapApplication(Object.assign({}, application, patch, { _id: id })),
+    };
+  } catch (e) {
+    return {
+      success: false,
+      errorMessage: e.message || "更新候选人失败",
+    };
+  }
+};
+
+const getUser = async (event) => {
+  const phone = String(event.phone || "").replace(/\s+/g, "");
+  if (!/^1[3-9]\d{9}$/.test(phone)) return { success: false, user: null };
+  try {
+    const result = await db.collection("users").where({ phone }).limit(1).get();
+    const user = result.data && result.data[0];
+    return { success: true, user: user || null };
+  } catch (e) {
+    return { success: false, errorMessage: e.message, user: null };
+  }
+};
+
+const upsertUser = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const phone = String(event.phone || "").replace(/\s+/g, "");
+  if (!/^1[3-9]\d{9}$/.test(phone)) return { success: false, errorMessage: "手机号不合法" };
+
+  const profile = event.profile && typeof event.profile === "object" ? event.profile : {};
+  const workerProfile = event.workerProfile && typeof event.workerProfile === "object" ? event.workerProfile : null;
+  const now = db.serverDate();
+
+  const doUpsert = async () => {
+    const existing = await db.collection("users").where({ phone }).limit(1).get();
+    if (existing.data && existing.data.length > 0) {
+      const patch = { profile, updatedAt: now };
+      if (workerProfile) patch.workerProfile = workerProfile;
+      await db.collection("users").doc(existing.data[0]._id).update({ data: patch });
+      return { success: true, updated: true };
+    }
+    const data = { phone, openid: wxContext.OPENID || "", profile, workerProfile: workerProfile || null, createdAt: now, updatedAt: now };
+    await db.collection("users").add({ data });
+    return { success: true, created: true };
+  };
+
+  try {
+    return await doUpsert();
+  } catch (e) {
+    await ensureCollection("users");
+    try {
+      return await doUpsert();
+    } catch (retryError) {
+      return { success: false, errorMessage: retryError.message || e.message };
+    }
+  }
+};
+
+const submitFeedback = async (event) => {
+  const wxContext = cloud.getWXContext();
+  const feedbackType = String(event.feedbackType || "").trim().slice(0, 40);
+  const feedbackContent = String(event.feedbackContent || "").trim().slice(0, 500);
+  if (!feedbackType || !feedbackContent) {
+    return { success: false, errorMessage: "反馈内容不完整" };
+  }
+  try {
+    await ensureCollection("feedbacks");
+    await db.collection("feedbacks").add({
+      data: {
+        openid: wxContext.OPENID,
+        feedbackType,
+        feedbackContent,
+        createdAt: db.serverDate(),
+      },
+    });
+    return { success: true };
+  } catch (e) {
+    return { success: false, errorMessage: e.message || "提交失败" };
+  }
+};
+
 // 获取openid
 const getOpenId = async () => {
   // 获取基础信息
@@ -755,6 +1308,10 @@ const getMiniProgramCode = async () => {
 // 云函数入口函数
 exports.main = async (event, context) => {
   switch (event.type) {
+    case "getUser":
+      return await getUser(event);
+    case "upsertUser":
+      return await upsertUser(event);
     case "getOpenId":
       return await getOpenId();
     case "getMiniProgramCode":
@@ -769,6 +1326,26 @@ exports.main = async (event, context) => {
       return await authorizePhone(event);
     case "saveManualPhone":
       return await saveManualPhone(event);
+    case "listEmployerJobs":
+      return await listEmployerJobs(event);
+    case "createEmployerJob":
+      return await createEmployerJob(event);
+    case "updateEmployerJob":
+      return await updateEmployerJob(event);
+    case "updateEmployerJobStatus":
+      return await updateEmployerJobStatus(event);
+    case "createApplication":
+      return await createApplication(event);
+    case "listWorkerApplications":
+      return await listWorkerApplications();
+    case "listEmployerApplications":
+      return await listEmployerApplications();
+    case "updateApplicationAgreement":
+      return await updateApplicationAgreement(event);
+    case "updateApplicationStatus":
+      return await updateApplicationStatus(event);
+    case "submitFeedback":
+      return await submitFeedback(event);
     default:
       return {
         success: false,

@@ -19,19 +19,19 @@
     <text class="section-title">招聘概况</text>
     <view class="stats-grid">
       <view class="stat-card" data-type="active" bindtap="onStatTap">
-        <text class="stat-value">{{stats.activeJobs}}</text>
+        <text class="stat-value {{statsLoading ? 'stat-loading' : ''}}">{{statsLoading ? '-' : stats.activeJobs}}</text>
         <text class="stat-label">在招职位</text>
       </view>
       <view class="stat-card" data-type="pending" bindtap="onStatTap">
-        <text class="stat-value">{{stats.pending}}</text>
+        <text class="stat-value {{statsLoading ? 'stat-loading' : ''}}">{{statsLoading ? '-' : stats.pending}}</text>
         <text class="stat-label">待处理</text>
       </view>
       <view class="stat-card" data-type="communicating" bindtap="onStatTap">
-        <text class="stat-value">{{stats.communicating}}</text>
+        <text class="stat-value {{statsLoading ? 'stat-loading' : ''}}">{{statsLoading ? '-' : stats.communicating}}</text>
         <text class="stat-label">沟通中</text>
       </view>
       <view class="stat-card" data-type="hired" bindtap="onStatTap">
-        <text class="stat-value">{{stats.hired}}</text>
+        <text class="stat-value {{statsLoading ? 'stat-loading' : ''}}">{{statsLoading ? '-' : stats.hired}}</text>
         <text class="stat-label">已录用</text>
       </view>
     </view>
@@ -45,6 +45,9 @@
     </view>
 
     <view class="job-list">
+      <view wx:if="{{recentJobs.length === 0}}" class="empty-state">
+        <text class="empty-text">还没有发布岗位</text>
+      </view>
       <view
         wx:for="{{recentJobs}}"
         wx:key="id"
@@ -54,7 +57,7 @@
       >
         <view class="job-header">
           <text class="job-title">{{item.title}}</text>
-          <view class="status-badge status-active">招聘中</view>
+          <view class="status-badge status-{{item.status}}">{{item.status === 'active' ? '招聘中' : '已关闭'}}</view>
         </view>
         <view class="job-info">
           <text class="job-salary">{{item.salary}}</text>

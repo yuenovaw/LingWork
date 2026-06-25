@@ -43,11 +43,15 @@
   "permission": {
     "scope.record": {
       "desc": "用于语音登记找工资料"
+    },
+    "scope.userLocation": {
+      "desc": "用于显示附近工作岗位，帮您找到距离更近的工作机会"
     }
   },
+  "requiredPrivateInfos": ["getLocation"],
   "tabBar": {
     "color": "#7D746A",
-    "selectedColor": "#67BE86",
+    "selectedColor": "#5B8DEF",
     "backgroundColor": "#FFFFFF",
     "borderStyle": "white",
     "list": [
@@ -55,19 +59,19 @@
         "pagePath": "pages/jobs/index",
         "text": "找工作",
         "iconPath": "images/icons/home.png",
-        "selectedIconPath": "images/icons/home-active.png"
+        "selectedIconPath": "images/icons/home-worker-active.png"
       },
       {
         "pagePath": "pages/applications/index",
         "text": "报名",
         "iconPath": "images/icons/goods.png",
-        "selectedIconPath": "images/icons/goods-active.png"
+        "selectedIconPath": "images/icons/goods-worker-active.png"
       },
       {
         "pagePath": "pages/profile/index",
         "text": "我的",
         "iconPath": "images/icons/usercenter.png",
-        "selectedIconPath": "images/icons/usercenter-active.png"
+        "selectedIconPath": "images/icons/usercenter-worker-active.png"
       }
     ]
   },

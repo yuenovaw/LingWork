@@ -1,30 +1,31 @@
 .settings-page {
   min-height: 100vh;
-  background: #F7FCF9;
-  padding: 16px;
+  background: #F5FBF7;
+  padding: 32rpx;
 }
 
 .page-title {
   display: block;
-  font-size: 22px;
-  font-weight: 600;
-  color: #1F2937;
-  margin-bottom: 16px;
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #111827;
+  margin-bottom: 28rpx;
 }
 
 .settings-list {
-  background: #FFFFFF;
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 20rpx;
   overflow: hidden;
-  margin-bottom: 24px;
+  margin-bottom: 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.07);
 }
 
 .setting-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #F3F4F6;
+  padding: 28rpx;
+  border-bottom: 2rpx solid #F3F4F6;
 }
 
 .setting-item:last-child {
@@ -32,47 +33,49 @@
 }
 
 .setting-item:active {
-  background: rgba(0, 0, 0, 0.03);
+  background: #F0FDF4;
 }
 
 .setting-label {
-  font-size: 17px;
-  color: #1F2937;
+  font-size: 32rpx;
+  color: #111827;
+  font-weight: 600;
 }
 
 .setting-right {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12rpx;
 }
 
 .setting-value {
-  font-size: 15px;
+  font-size: 28rpx;
   color: #9CA3AF;
 }
 
 .setting-arrow {
-  font-size: 15px;
-  color: #9CA3AF;
+  font-size: 30rpx;
+  color: #D1D5DB;
 }
 
 .logout-btn {
   width: 100%;
-  height: 48px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 10px;
+  height: 88rpx;
+  background: #fff;
+  border: 2rpx solid #FCA5A5;
+  border-radius: 999rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, 0.06);
 }
 
 .logout-btn:active {
-  background: #F9FAFB;
+  background: #FEF2F2;
 }
 
 .logout-text {
-  font-size: 17px;
+  font-size: 32rpx;
   color: #EF4444;
-  font-weight: 500;
+  font-weight: 700;
 }

@@ -1,17 +1,37 @@
-const { worker } = require("../../utils/mockData");
+const { isLegacyDemoWorkerProfile } = require("../../utils/storage");
 
 Page({
   data: {
-    worker,
     role: "worker",
     aiProfile: null,
-    displayWorker: worker
+    displayWorker: {
+      name: "未登记",
+      age: "",
+      city: "南京",
+      district: "",
+      realNameStatus: "待完善资料",
+      maskedPhone: ""
+    },
+    displayNameAge: "未登记"
   },
 
   onShow() {
-    const aiProfile = wx.getStorageSync("workerProfile") || null;
+    let aiProfile = wx.getStorageSync("workerProfile") || null;
+    if (isLegacyDemoWorkerProfile(aiProfile)) {
+      wx.removeStorageSync("workerProfile");
+      wx.removeStorageSync("authorizedPhone");
+      wx.removeStorageSync("phoneAuthorized");
+      aiProfile = null;
+    }
     const authorizedPhone = wx.getStorageSync("authorizedPhone") || "";
-    const displayWorker = Object.assign({}, worker, aiProfile || {});
+    const displayWorker = Object.assign({
+      name: "未登记",
+      age: "",
+      city: "南京",
+      district: "",
+      realNameStatus: "待完善资料",
+      maskedPhone: ""
+    }, aiProfile || {});
     if (authorizedPhone) {
       displayWorker.phone = authorizedPhone;
       displayWorker.maskedPhone = `${authorizedPhone.slice(0, 3)}****${authorizedPhone.slice(-4)}`;
@@ -26,7 +46,8 @@ Page({
     this.setData({
       role: wx.getStorageSync("currentRole") || "worker",
       aiProfile,
-      displayWorker
+      displayWorker,
+      displayNameAge: displayWorker.age ? `${displayWorker.name} · ${displayWorker.age}岁` : displayWorker.name
     });
   },
 

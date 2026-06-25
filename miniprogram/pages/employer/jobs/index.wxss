@@ -4,101 +4,112 @@
 
 .jobs-page {
   min-height: 100vh;
-  background: #F7FCF9;
-  padding: 16px;
+  background: #F5FBF7;
+  padding: 32rpx;
 }
 
 /* 筛选标签 */
 .tabs {
   display: flex;
-  background: #F3F4F6;
-  border-radius: 10px;
-  padding: 4px;
-  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 8rpx;
+  margin-bottom: 28rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.07);
+  gap: 8rpx;
 }
 
 .tab {
   flex: 1;
   text-align: center;
-  padding: 10px;
-  font-size: 15px;
-  color: #6B7280;
-  border-radius: 8px;
-  transition: all 0.2s;
+  padding: 18rpx;
+  font-size: 28rpx;
+  color: #9CA3AF;
+  border-radius: 14rpx;
+  font-weight: 600;
 }
 
 .tab.active {
-  background: #FFFFFF;
-  color: #67BE86;
-  font-weight: 500;
+  background: linear-gradient(135deg, #065F46, #10B981);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 4rpx 14rpx rgba(6, 95, 70, 0.35);
 }
 
 /* 岗位列表 */
 .job-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20rpx;
 }
 
 .job-card {
-  background: #FFFFFF;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.07);
+  border-left: 6rpx solid #10B981;
 }
 
 .job-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #F3F4F6;
+  margin-bottom: 20rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 2rpx solid #F3F4F6;
 }
 
 .job-title {
-  font-size: 17px;
-  font-weight: 600;
-  color: #1F2937;
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #111827;
 }
 
 .status-badge {
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 700;
 }
 
 .status-active {
   background: #D1FAE5;
-  color: #3f8b62;
+  color: #065F46;
 }
 
 .status-closed {
   background: #F3F4F6;
-  color: #6B7280;
+  color: #9CA3AF;
+}
+
+.job-closed {
+  border-left-color: #D1D5DB;
+  opacity: 0.85;
 }
 
 /* 岗位详情 */
 .job-details {
-  margin-bottom: 16px;
+  margin-bottom: 20rpx;
 }
 
 .detail-row {
   display: flex;
-  margin-bottom: 8px;
+  margin-bottom: 12rpx;
 }
 
 .detail-label {
-  width: 60px;
-  font-size: 15px;
-  color: #6B7280;
+  width: 80rpx;
+  font-size: 28rpx;
+  color: #9CA3AF;
+  flex-shrink: 0;
 }
 
 .detail-value {
   flex: 1;
-  font-size: 15px;
-  color: #1F2937;
+  font-size: 30rpx;
+  color: #374151;
+  font-weight: 600;
 }
 
 /* 底部操作 */
@@ -106,56 +117,73 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid #F3F4F6;
+  padding-top: 16rpx;
+  border-top: 2rpx solid #F3F4F6;
 }
 
 .job-pending {
-  font-size: 15px;
-  color: #6B7280;
+  font-size: 28rpx;
+  color: #9CA3AF;
 }
 
 .action-buttons {
   display: flex;
-  gap: 8px;
+  gap: 14rpx;
 }
 
 .action-btn {
-  padding: 6px 16px;
-  border-radius: 6px;
-  font-size: 15px;
-  font-weight: 500;
+  padding: 12rpx 28rpx;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 700;
 }
 
 .edit-btn {
   background: #F3F4F6;
-  color: #1F2937;
+  color: #374151;
 }
 
 .close-btn {
   background: #FEE2E2;
-  color: #991B1B;
+  color: #DC2626;
 }
 
 .restore-btn {
   background: #D1FAE5;
-  color: #3f8b62;
+  color: #065F46;
+}
+
+/* 加载中 */
+.loading-state {
+  padding: 80rpx 32rpx;
+  text-align: center;
+}
+
+.loading-text {
+  font-size: 30rpx;
+  color: #9CA3AF;
 }
 
 /* 空状态 */
 .empty-state {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 80rpx 28rpx;
   text-align: center;
-  padding: 60px 20px;
+  box-shadow: 0 4rpx 14rpx rgba(0, 0, 0, 0.06);
 }
 
-.empty-icon {
+.empty-title {
   display: block;
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 34rpx;
+  font-weight: 800;
+  color: #374151;
+  margin-bottom: 12rpx;
 }
 
 .empty-text {
   display: block;
-  font-size: 17px;
-  color: #6B7280;
+  font-size: 28rpx;
+  color: #9CA3AF;
+  line-height: 1.6;
 }

@@ -1,5 +1,5 @@
 page {
-  background: #f7fcf9;
+  background: #F5F7FF;
 }
 
 button {
@@ -13,19 +13,17 @@ button {
 
 .landing {
   min-height: 100vh;
-  padding: 34rpx 34rpx 52rpx;
+  padding: 34rpx 34rpx 64rpx;
   box-sizing: border-box;
-  color: #2f2923;
-  background: linear-gradient(180deg, #f7fcf9 0%, #eff9f3 100%);
+  background: linear-gradient(180deg, #EEF2FF 0%, #F5F7FF 100%);
 }
 
 .hero {
-  min-height: 470rpx;
-  padding: 36rpx 30rpx 34rpx;
-  border-radius: 30rpx;
-  background: #fff;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 14rpx 36rpx rgba(79, 139, 97, 0.08);
+  min-height: 480rpx;
+  padding: 44rpx 36rpx 40rpx;
+  border-radius: 32rpx;
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 60%, #60A5FA 100%);
+  box-shadow: 0 20rpx 48rpx rgba(37, 99, 235, 0.38);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -33,79 +31,80 @@ button {
 }
 
 .brand-badge {
-  height: 58rpx;
-  line-height: 58rpx;
-  padding: 0 24rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 28rpx;
   border-radius: 999rpx;
-  background: #f1faf4;
-  color: #3f8b62;
-  font-size: 27rpx;
-  font-weight: 900;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  font-size: 26rpx;
+  font-weight: 800;
+  border: 2rpx solid rgba(255, 255, 255, 0.35);
 }
 
 .brand-logo {
-  width: 172rpx;
-  height: 172rpx;
-  margin-top: 26rpx;
+  width: 164rpx;
+  height: 164rpx;
+  margin-top: 28rpx;
   display: block;
-  border-radius: 46rpx;
-  background: #fff;
-  box-shadow: 0 14rpx 30rpx rgba(79, 139, 97, 0.1);
+  border-radius: 44rpx;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10rpx 32rpx rgba(0, 0, 0, 0.18);
 }
 
 .brand-title {
   margin-top: 24rpx;
-  color: #2f2923;
-  font-size: 70rpx;
+  color: #fff;
+  font-size: 72rpx;
   line-height: 1.08;
   font-weight: 900;
+  text-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.15);
 }
 
 .brand-sub {
   margin-top: 18rpx;
   max-width: 560rpx;
-  color: #6f655d;
-  font-size: 31rpx;
-  line-height: 1.55;
-  font-weight: 800;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 30rpx;
+  line-height: 1.6;
+  font-weight: 700;
 }
 
 .guide-card {
-  margin-top: 26rpx;
-  padding: 34rpx 30rpx 30rpx;
+  margin-top: 28rpx;
+  padding: 38rpx 32rpx 32rpx;
   border-radius: 28rpx;
   background: #fff;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 14rpx 36rpx rgba(79, 139, 97, 0.07);
+  box-shadow: 0 8rpx 32rpx rgba(37, 99, 235, 0.1);
 }
 
 .guide-title {
-  color: #2f2923;
-  font-size: 40rpx;
+  color: #111827;
+  font-size: 42rpx;
   line-height: 1.25;
   font-weight: 900;
 }
 
 .guide-sub {
   margin-top: 10rpx;
-  color: #7b7068;
+  color: #6B7280;
   font-size: 28rpx;
-  line-height: 1.45;
-  font-weight: 700;
+  line-height: 1.55;
+  font-weight: 600;
 }
 
 .phone-field {
   margin-top: 28rpx;
-  padding: 24rpx 24rpx 22rpx;
-  border-radius: 24rpx;
-  background: #f7fbf8;
-  border: 2rpx solid #d7eadf;
+  padding: 24rpx 28rpx;
+  border-radius: 20rpx;
+  background: #F0F4FF;
+  border: 2rpx solid #DBEAFE;
 }
 
 .phone-label {
   display: block;
-  color: #6b6259;
-  font-size: 25rpx;
+  color: #374151;
+  font-size: 26rpx;
   line-height: 1.2;
   font-weight: 800;
 }
@@ -114,7 +113,7 @@ button {
   width: 100%;
   height: 72rpx;
   margin-top: 8rpx;
-  color: #2f2923;
+  color: #111827;
   font-size: 36rpx;
   line-height: 72rpx;
   font-weight: 900;
@@ -122,36 +121,33 @@ button {
 }
 
 .phone-placeholder {
-  color: #b7aca1;
-  font-size: 31rpx;
-  font-weight: 700;
+  color: #9CA3AF;
+  font-size: 32rpx;
+  font-weight: 600;
 }
 
 .primary-action {
   width: 100%;
   min-height: 128rpx;
-  margin-top: 24rpx;
+  margin-top: 28rpx;
   padding: 24rpx 28rpx;
   border-radius: 26rpx;
+  background: #93C5FD;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
 }
 
-.primary-action {
-  background: #3f8b62;
-  color: #fff;
-  box-shadow: 0 16rpx 34rpx rgba(31, 111, 70, 0.18);
-}
-
 .primary-action.ready {
-  background: #67be86;
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 60%, #60A5FA 100%);
+  box-shadow: 0 16rpx 36rpx rgba(37, 99, 235, 0.38);
 }
 
 .action-copy {
   min-width: 0;
   flex: 1;
+  color: #fff;
 }
 
 .action-title,
@@ -160,69 +156,70 @@ button {
 }
 
 .action-title {
-  font-size: 35rpx;
+  font-size: 36rpx;
   line-height: 1.25;
   font-weight: 900;
 }
 
 .action-desc {
   margin-top: 10rpx;
-  font-size: 25rpx;
+  font-size: 26rpx;
   line-height: 1.45;
-  font-weight: 700;
-  opacity: 0.82;
+  font-weight: 600;
+  opacity: 0.85;
 }
 
 .privacy-note {
   margin-top: 18rpx;
-  color: #8a8076;
+  color: #9CA3AF;
   font-size: 24rpx;
-  line-height: 1.45;
+  line-height: 1.5;
   text-align: center;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .promise-list {
-  margin-top: 26rpx;
+  margin-top: 28rpx;
   display: grid;
   gap: 16rpx;
 }
 
 .promise-item {
   min-height: 104rpx;
-  padding: 20rpx 24rpx;
-  border-radius: 28rpx;
+  padding: 22rpx 26rpx;
+  border-radius: 24rpx;
   background: #fff;
-  border: 2rpx solid #e3f1e8;
+  border-left: 6rpx solid #3B82F6;
+  box-shadow: 0 4rpx 16rpx rgba(37, 99, 235, 0.08);
   display: flex;
   align-items: center;
-  gap: 18rpx;
+  gap: 20rpx;
 }
 
 .promise-mark {
-  width: 58rpx;
-  height: 58rpx;
-  line-height: 58rpx;
+  width: 60rpx;
+  height: 60rpx;
+  line-height: 60rpx;
   border-radius: 50%;
-  background: #f1faf4;
-  color: #138a54;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  color: #fff;
   text-align: center;
-  font-size: 29rpx;
+  font-size: 28rpx;
   font-weight: 900;
-  flex: 0 0 58rpx;
+  flex: 0 0 60rpx;
 }
 
 .promise-title {
-  color: #2f2923;
+  color: #111827;
   font-size: 30rpx;
-  line-height: 1.3;
+  line-height: 1.35;
   font-weight: 900;
 }
 
 .promise-desc {
   margin-top: 4rpx;
-  color: #7b7068;
+  color: #6B7280;
   font-size: 26rpx;
-  line-height: 1.35;
-  font-weight: 800;
+  line-height: 1.4;
+  font-weight: 700;
 }

@@ -1,7 +1,7 @@
 <view class="page">
   <view class="panel">
     <view class="title">协议与隐私政策</view>
-    <scroll-view class="tabs" scroll-x>
+    <view class="tabs">
       <view
         wx:for="{{agreements}}"
         wx:key="id"
@@ -9,7 +9,7 @@
         data-id="{{item.id}}"
         bindtap="switchAgreement"
       >{{item.title}}</view>
-    </scroll-view>
+    </view>
     <scroll-view class="content" scroll-y>
       <view class="doc-title">《{{agreement.title}}》</view>
       <view wx:for="{{agreement.paragraphs}}" wx:key="index" class="p">{{item}}</view>

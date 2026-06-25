@@ -1,52 +1,58 @@
 .security-page {
   min-height: 100vh;
-  background: #F7FCF9;
-  padding: 16px;
+  background: #F5FBF7;
+  padding: 32rpx;
 }
 
 .page-title {
   display: block;
-  font-size: 22px;
-  font-weight: 600;
-  color: #1F2937;
-  margin-bottom: 16px;
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #111827;
+  margin-bottom: 28rpx;
 }
 
 .menu-list {
-  background: #FFFFFF;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.07);
+  border-left: 6rpx solid #10B981;
 }
 
 .menu-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 4rpx 0;
 }
 
 .menu-label {
-  font-size: 15px;
+  font-size: 28rpx;
   color: #6B7280;
+  font-weight: 600;
 }
 
 .menu-value {
-  font-size: 15px;
-  color: #1F2937;
+  font-size: 30rpx;
+  color: #111827;
+  font-weight: 700;
 }
 
 .action-list {
-  background: #FFFFFF;
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 20rpx;
   overflow: hidden;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.07);
 }
 
 .action-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #F3F4F6;
+  padding: 28rpx;
+  border-bottom: 2rpx solid #F3F4F6;
 }
 
 .action-item:last-child {
@@ -54,15 +60,16 @@
 }
 
 .action-item:active {
-  background: rgba(0, 0, 0, 0.03);
+  background: #F0FDF4;
 }
 
 .action-text {
-  font-size: 17px;
-  color: #1F2937;
+  font-size: 32rpx;
+  color: #111827;
+  font-weight: 600;
 }
 
 .action-arrow {
-  font-size: 15px;
-  color: #9CA3AF;
+  font-size: 30rpx;
+  color: #D1D5DB;
 }

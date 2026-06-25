@@ -2,11 +2,11 @@
   <view
     wx:for="{{tabs}}"
     wx:key="key"
-    class="tab {{current === item.key ? 'active' : ''}}"
+    class="tab {{current === item.key ? 'active' : ''}} {{item.key === 'publish' ? 'tab-publish' : ''}}"
     data-key="{{item.key}}"
     bindtap="onTabTap"
   >
-    <view class="icon">{{item.icon}}</view>
+    <view class="{{item.key === 'publish' ? 'icon icon-publish' : 'icon'}}">{{item.icon}}</view>
     <view class="label">{{item.label}}</view>
   </view>
 </view>

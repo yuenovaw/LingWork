@@ -1,3 +1,4 @@
+// 前端本地兜底逻辑，与云函数 quickstartFunctions 里的 extractProfileFallback / extractLocationFallback 保持同步
 const requiredSlots = [
   { key: "name", ask: "我该怎么称呼您？比如王叔叔、李阿姨。" },
   { key: "age", ask: "您今年多大？我会帮您避开年龄不合适的工作。" },

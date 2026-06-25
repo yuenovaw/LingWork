@@ -111,6 +111,6 @@
   </scroll-view>
 
   <view class="form-submit-bar">
-    <view class="form-submit-btn" bindtap="onSubmit">确认发布</view>
+    <view class="form-submit-btn" bindtap="onSubmit">{{submitting ? '发布中...' : '确认发布'}}</view>
   </view>
 </view>

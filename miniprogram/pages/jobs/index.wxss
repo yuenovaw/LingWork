@@ -1,20 +1,19 @@
 page {
-  background: #f7fcf9;
+  background: #F5F7FF;
 }
 
 .page {
   padding: 24rpx 28rpx 48rpx;
-  color: #24362c;
+  color: #111827;
 }
 
+/* 顶部英雄区 */
 .top-hero {
-  border-radius: 26rpx;
-  padding: 30rpx 28rpx 24rpx;
-  margin-bottom: 24rpx;
-  background: #fff;
-  color: #24362c;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 14rpx 34rpx rgba(79, 139, 97, 0.08);
+  border-radius: 28rpx;
+  padding: 36rpx 32rpx 30rpx;
+  margin-bottom: 28rpx;
+  background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 60%, #60A5FA 100%);
+  box-shadow: 0 12rpx 36rpx rgba(37, 99, 235, 0.38);
 }
 
 .header {
@@ -26,16 +25,25 @@ page {
 }
 
 .hello {
-  font-size: 44rpx;
-  font-weight: 800;
+  font-size: 46rpx;
+  font-weight: 900;
   line-height: 1.3;
+  color: #fff;
 }
 
 .sub {
   margin-top: 10rpx;
-  color: #597163;
+  color: rgba(255, 255, 255, 0.82);
   font-size: 29rpx;
-  line-height: 1.45;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.loc-dot {
+  font-size: 28rpx;
+  flex-shrink: 0;
 }
 
 .role-btn {
@@ -44,16 +52,16 @@ page {
   height: 72rpx;
   line-height: 72rpx;
   border-radius: 999rpx;
-  background: #eef9f2;
-  color: #3f8b62;
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
   font-size: 28rpx;
   font-weight: 700;
   box-shadow: none;
+  border: 2rpx solid rgba(255, 255, 255, 0.4);
 }
 
 .guide-card {
-  background: #f7fbf8;
-  border: 2rpx solid #e3f1e8;
+  background: rgba(255, 255, 255, 0.18);
   border-radius: 18rpx;
   padding: 14rpx;
 }
@@ -67,8 +75,8 @@ page {
 .guide-steps view {
   min-height: 68rpx;
   border-radius: 14rpx;
-  background: #fff;
-  color: #3f8b62;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1E40AF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -86,12 +94,13 @@ page {
   width: 34rpx;
   height: 34rpx;
   border-radius: 50%;
-  background: #67be86;
+  background: #3B82F6;
   color: #fff;
   font-size: 22rpx;
   margin-right: 6rpx;
 }
 
+/* 搜索框 */
 .search {
   height: 104rpx;
   border-radius: 18rpx;
@@ -99,21 +108,22 @@ page {
   display: flex;
   align-items: center;
   padding: 0 28rpx;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 10rpx 24rpx rgba(79, 139, 97, 0.06);
+  box-shadow: 0 4rpx 16rpx rgba(37, 99, 235, 0.1);
 }
 
 .search-icon {
   font-size: 42rpx;
-  color: #67be86;
+  color: #3B82F6;
   margin-right: 14rpx;
 }
 
 .search input {
   flex: 1;
   font-size: 34rpx;
+  color: #111827;
 }
 
+/* 分类标签 */
 .chips {
   white-space: nowrap;
   margin: 24rpx 0;
@@ -127,24 +137,26 @@ page {
   margin-right: 16rpx;
   border-radius: 999rpx;
   background: #fff;
-  color: #5d554d;
-  font-size: 31rpx;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: none;
+  color: #374151;
+  font-size: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(37, 99, 235, 0.08);
+  font-weight: 600;
 }
 
 .chip.active {
-  background: #67be86;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
   color: #fff;
-  font-weight: 700;
+  font-weight: 800;
+  box-shadow: 0 6rpx 16rpx rgba(37, 99, 235, 0.38);
 }
 
+/* AI 登记提示卡 */
 .assist-card {
   display: flex;
   align-items: center;
   gap: 18rpx;
-  background: #eefaf4;
-  border: 2rpx solid #cce9d8;
+  background: #DBEAFE;
+  border-left: 6rpx solid #2563EB;
   border-radius: 20rpx;
   padding: 24rpx;
   margin-bottom: 24rpx;
@@ -155,13 +167,13 @@ page {
 }
 
 .assist-title {
-  color: #3f8b62;
+  color: #1E40AF;
   font-size: 32rpx;
-  font-weight: 800;
+  font-weight: 900;
 }
 
 .assist-text {
-  color: #406653;
+  color: #1D4ED8;
   font-size: 28rpx;
   line-height: 1.55;
   margin-top: 8rpx;
@@ -174,44 +186,58 @@ page {
   height: 78rpx;
   line-height: 78rpx;
   border-radius: 999rpx;
-  background: #1da56b;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
   color: #fff;
   font-size: 29rpx;
   font-weight: 800;
+  box-shadow: 0 6rpx 16rpx rgba(37, 99, 235, 0.35);
 }
 
+/* 列表标题 */
 .list-title {
-  font-size: 32rpx;
-  font-weight: 800;
+  font-size: 34rpx;
+  font-weight: 900;
   margin: 6rpx 0 18rpx;
+  color: #111827;
+}
+
+.loading-tip {
+  color: #9CA3AF;
+  font-size: 30rpx;
+  text-align: center;
+  padding: 40rpx 0;
 }
 
 .empty {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 34rpx 28rpx;
-  box-shadow: 0 8rpx 24rpx rgba(79, 139, 97, 0.06);
+  border-radius: 20rpx;
+  padding: 48rpx 28rpx;
+  box-shadow: 0 4rpx 16rpx rgba(37, 99, 235, 0.07);
+  border-left: 6rpx solid #3B82F6;
 }
 
 .empty-title {
   font-size: 36rpx;
   font-weight: 800;
+  color: #374151;
 }
 
 .empty-text {
-  color: #7d746a;
+  color: #9CA3AF;
   font-size: 30rpx;
   line-height: 1.5;
   margin-top: 12rpx;
 }
 
+/* 工作卡片 */
 .job-card {
   background: #fff;
-  border-radius: 22rpx;
-  padding: 30rpx;
+  border-radius: 24rpx;
+  padding: 28rpx 28rpx 0;
   margin-bottom: 24rpx;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 12rpx 28rpx rgba(79, 139, 97, 0.06);
+  box-shadow: 0 4rpx 20rpx rgba(37, 99, 235, 0.09);
+  border-left: 6rpx solid #3B82F6;
+  overflow: hidden;
 }
 
 .job-head,
@@ -223,82 +249,95 @@ page {
 }
 
 .job-title {
-  font-size: 39rpx;
-  font-weight: 800;
+  font-size: 44rpx;
+  font-weight: 900;
   line-height: 1.28;
+  color: #111827;
 }
 
 .status {
   flex-shrink: 0;
-  color: #4aa76e;
-  background: #e7f7ef;
-  padding: 8rpx 14rpx;
+  color: #1E40AF;
+  background: #DBEAFE;
+  padding: 8rpx 20rpx;
   border-radius: 999rpx;
   font-size: 26rpx;
+  font-weight: 700;
 }
 
+/* 薪资 - 超大醒目 */
 .salary {
-  color: #3f8b62;
-  font-size: 48rpx;
-  font-weight: 800;
-  margin-top: 18rpx;
+  color: #1D4ED8;
+  font-size: 64rpx;
+  font-weight: 900;
+  margin-top: 16rpx;
+  letter-spacing: -1rpx;
 }
 
 .meta {
-  color: #645b52;
+  color: #6B7280;
   font-size: 30rpx;
   line-height: 1.55;
-  margin-top: 8rpx;
+  margin-top: 10rpx;
 }
 
 .tags {
-  margin: 18rpx 0;
+  margin: 18rpx 0 0;
 }
 
 .tag {
   display: inline-block;
-  background: #f1f3ed;
-  color: #5a6b3d;
+  background: #EEF2FF;
+  color: #1E40AF;
   border-radius: 999rpx;
-  padding: 8rpx 12rpx;
+  padding: 8rpx 18rpx;
   margin: 0 12rpx 12rpx 0;
-  font-size: 26rpx;
+  font-size: 27rpx;
+  font-weight: 700;
 }
 
+/* 底部：年龄 + 按钮 */
 .card-bottom {
-  color: #7d746a;
+  border-top: 2rpx solid #EEF2FF;
+  padding: 20rpx 0;
+  margin-top: 16rpx;
+}
+
+.card-bottom text {
+  color: #9CA3AF;
   font-size: 28rpx;
-  border-top: 2rpx solid #e1eee6;
-  padding-top: 20rpx;
 }
 
 .detail-btn {
   margin: 0;
-  min-width: 190rpx;
-  height: 78rpx;
-  line-height: 78rpx;
+  min-width: 200rpx;
+  height: 82rpx;
+  line-height: 82rpx;
   border-radius: 999rpx;
-  background: #67be86;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
   color: #fff;
-  font-size: 30rpx;
-  font-weight: 700;
+  font-size: 32rpx;
+  font-weight: 800;
+  box-shadow: 0 6rpx 16rpx rgba(37, 99, 235, 0.38);
 }
 
+/* 雇主占位 */
 .employer-placeholder {
   background: #fff;
-  border-radius: 16rpx;
-  padding: 34rpx;
-  border: 2rpx solid #e3f1e8;
-  box-shadow: 0 8rpx 24rpx rgba(79, 139, 97, 0.06);
+  border-radius: 20rpx;
+  padding: 44rpx 32rpx;
+  box-shadow: 0 4rpx 16rpx rgba(37, 99, 235, 0.07);
+  border-left: 6rpx solid #3B82F6;
 }
 
 .placeholder-title {
   font-size: 38rpx;
-  font-weight: 800;
+  font-weight: 900;
+  color: #111827;
 }
 
 .placeholder-text {
-  color: #645b52;
+  color: #6B7280;
   font-size: 31rpx;
   line-height: 1.6;
   margin: 16rpx 0 28rpx;
@@ -307,9 +346,10 @@ page {
 .employer-placeholder button {
   height: 88rpx;
   line-height: 88rpx;
-  border-radius: 8rpx;
-  background: #67be86;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
   color: #fff;
   font-size: 32rpx;
   font-weight: 800;
+  box-shadow: 0 8rpx 20rpx rgba(37, 99, 235, 0.35);
 }

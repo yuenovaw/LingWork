@@ -1,5 +1,5 @@
 page {
-  background: #f7fcf9;
+  background: #f6f9ff;
 }
 
 .page {
@@ -15,8 +15,8 @@ page {
   height: 52rpx;
   padding: 0 22rpx;
   border-radius: 999rpx;
-  background: #eaf8f1;
-  color: #4aa76e;
+  background: #eef5ff;
+  color: #3468a8;
   font-size: 27rpx;
   font-weight: 800;
   margin-bottom: 18rpx;
@@ -37,7 +37,7 @@ page {
 
 .role-card {
   min-height: 162rpx;
-  border: 3rpx solid #e3f1e8;
+  border: 3rpx solid #dbe8fb;
   border-radius: 20rpx;
   background: #fff;
   display: flex;
@@ -46,13 +46,29 @@ page {
   padding: 26rpx 24rpx;
   margin-bottom: 26rpx;
   box-sizing: border-box;
-  box-shadow: 0 10rpx 26rpx rgba(79, 139, 97, 0.06);
+  box-shadow: 0 10rpx 26rpx rgba(68, 111, 171, 0.06);
 }
 
-.role-card.active {
+.role-card.employer-card.active {
   border-color: #67be86;
   background: #f1faf4;
   box-shadow: 0 12rpx 28rpx rgba(103, 190, 134, 0.14);
+}
+
+.role-card.worker-card.active {
+  border-color: #5b8def;
+  background: #eef5ff;
+  box-shadow: 0 12rpx 28rpx rgba(91, 141, 239, 0.16);
+}
+
+.role-card.employer-card.active .briefcase .handle,
+.role-card.employer-card.active .briefcase .case {
+  border-color: #3f8b62;
+}
+
+.role-card.worker-card.active .person-icon .head,
+.role-card.worker-card.active .person-icon .shoulder {
+  border-color: #3468a8;
 }
 
 .icon {
@@ -155,8 +171,8 @@ page {
 }
 
 .check.checked {
-  border-color: #3f8b62;
-  background: #3f8b62;
+  border-color: #3468a8;
+  background: #3468a8;
   color: #fff;
 }
 
@@ -172,8 +188,13 @@ page {
 }
 
 .next-btn.enabled {
-  background: #67be86;
+  background: #5b8def;
   color: #fff;
+  box-shadow: 0 12rpx 26rpx rgba(91, 141, 239, 0.22);
+}
+
+.next-btn.enabled.employer-next {
+  background: #67be86;
   box-shadow: 0 12rpx 26rpx rgba(103, 190, 134, 0.22);
 }
 

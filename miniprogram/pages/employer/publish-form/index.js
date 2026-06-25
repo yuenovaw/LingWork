@@ -1,6 +1,7 @@
 // 发布岗位表单页
 Page({
   data: {
+    submitting: false,
     formData: {
       title: '',
       salary: '',
@@ -78,7 +79,8 @@ Page({
     });
   },
 
-  onSubmit() {
+  async onSubmit() {
+    if (this.data.submitting) return;
     const { title, salary, location, workTime, recruitCount, requirements, phone } = this.data.formData;
 
     if (!title) {
@@ -114,11 +116,30 @@ Page({
       return;
     }
 
-    // TODO: 保存到数据库
-    wx.showToast({ title: '发布成功', icon: 'success' });
-
-    setTimeout(() => {
-      wx.redirectTo({ url: '/pages/employer/jobs/index' });
-    }, 1500);
+    this.setData({ submitting: true });
+    try {
+      const result = await wx.cloud.callFunction({
+        name: 'quickstartFunctions',
+        data: {
+          type: 'createEmployerJob',
+          job: Object.assign({}, this.data.formData, {
+            recruitCount,
+          }),
+        },
+      });
+      const data = result.result || {};
+      if (!data.success) {
+        wx.showToast({ title: data.errorMessage || '发布失败', icon: 'none' });
+        return;
+      }
+      wx.showToast({ title: '发布成功', icon: 'success' });
+      setTimeout(() => {
+        wx.redirectTo({ url: '/pages/employer/jobs/index' });
+      }, 900);
+    } catch (e) {
+      wx.showToast({ title: '发布失败，请检查云开发', icon: 'none' });
+    } finally {
+      this.setData({ submitting: false });
+    }
   },
 });

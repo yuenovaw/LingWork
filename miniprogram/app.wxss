@@ -1,7 +1,7 @@
 /**app.wxss**/
 page {
-  background: #f7fcf9;
-  color: #2f2a25;
+  background: #F5F7FF;
+  color: #111827;
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -36,7 +36,7 @@ view, text, input, textarea, scroll-view {
 
 .page-container {
   min-height: 100vh;
-  background-color: #f7fcf9;
+  background-color: #F5F7FF;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }

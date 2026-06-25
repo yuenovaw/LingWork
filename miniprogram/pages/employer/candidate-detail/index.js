@@ -4,42 +4,96 @@ Page({
     candidateId: '',
     status: 'pending', // pending, communicating, hired, rejected
     showContact: false,
-    tipText: '💡 点击"匹配意向"后可查看候选人联系方式',
+    tipText: '点击"匹配意向"后可查看候选人联系方式',
+    candidateTitle: '候选人',
+    ageText: '未填写',
     candidateInfo: {
-      name: '李阿姨',
-      age: 56,
-      jobTitle: '养老院护工',
-      location: '南京鼓楼',
-      availableTime: '随时',
-      phone: '138****8888',
-      wechat: 'wxid_xxxxx',
+      name: '候选人',
+      age: '',
+      jobTitle: '',
+      location: '',
+      availableTime: '',
+      phone: '',
+      maskedPhone: '',
+      wechat: '',
+      resumeText: '',
+      workerAgreed: false,
+      employerAgreed: false,
     },
   },
 
   onLoad(options) {
     const { id, status } = options;
+    const selected = wx.getStorageSync('selectedCandidateApplication') || {};
+    const candidateInfo = selected.id === id ? this.mapCandidateInfo(selected) : this.data.candidateInfo;
     this.setData({
       candidateId: id,
       status: status || 'pending',
+      candidateInfo,
+      candidateTitle: this.buildCandidateTitle(candidateInfo),
+      ageText: candidateInfo.age ? `${candidateInfo.age}岁` : '未填写',
     });
 
-    // 如果状态是沟通中或已录用，显示联系方式
-    if (this.data.status === 'communicating' || this.data.status === 'hired') {
+    if (this.canShowCandidateContact(candidateInfo, this.data.status)) {
       this.setData({
         showContact: true,
-        tipText: '💡 温馨提示：联系时请说明来自"找龄工"小程序',
+        tipText: '温馨提示：联系时请说明来自"找龄工"小程序',
       });
     }
   },
 
+  mapCandidateInfo(application) {
+    return {
+      name: application.workerName || application.name || '候选人',
+      age: application.workerAge || application.age || '',
+      jobTitle: application.jobTitle || '',
+      location: application.workerLocation || application.location || '',
+      availableTime: application.availableTime || '时间可沟通',
+      phone: application.workerPhone || '',
+      maskedPhone: application.workerPhoneMasked || '',
+      wechat: application.wechat || '',
+      resumeText: application.resumeText || application.summary || '',
+      workerAgreed: Boolean(application.workerAgreed),
+      employerAgreed: Boolean(application.employerAgreed),
+    };
+  },
+
+  canShowCandidateContact(candidateInfo, status) {
+    const statusAllows = status === 'communicating' || status === 'hired';
+    return statusAllows && candidateInfo.workerAgreed && candidateInfo.employerAgreed;
+  },
+
+  buildCandidateTitle(candidateInfo) {
+    return candidateInfo.age ? `${candidateInfo.name} · ${candidateInfo.age}岁` : candidateInfo.name;
+  },
 
   // 查看完整简历
   onViewResume() {
     wx.showModal({
       title: '查看简历',
-      content: '简历下载功能开发中，敬请期待',
+      content: this.data.candidateInfo.resumeText || '候选人暂未填写完整简历。',
       showCancel: false,
     });
+  },
+
+  async updateCloudStatus(newStatus) {
+    const result = await wx.cloud.callFunction({
+      name: 'quickstartFunctions',
+      data: {
+        type: 'updateApplicationStatus',
+        id: this.data.candidateId,
+        status: newStatus,
+      },
+    });
+    const data = result.result || {};
+    if (!data.success) {
+      throw new Error(data.errorMessage || '状态更新失败');
+    }
+    const pages = getCurrentPages();
+    const prevPage = pages[pages.length - 2];
+    if (prevPage && prevPage.updateCandidateStatus) {
+      prevPage.updateCandidateStatus(this.data.candidateId, newStatus, true);
+    }
   },
 
   // 匹配意向
@@ -49,19 +103,25 @@ Page({
       content: '匹配后将可查看候选人的联系方式',
       success: (res) => {
         if (res.confirm) {
-          this.setData({
-            status: 'communicating',
-            showContact: true,
-            tipText: '💡 温馨提示：联系时请说明来自"找龄工"小程序',
-          });
-          wx.showToast({ title: '已匹配', icon: 'success' });
-
-          // 通知列表页更新状态
-          const pages = getCurrentPages();
-          const prevPage = pages[pages.length - 2];
-          if (prevPage && prevPage.updateCandidateStatus) {
-            prevPage.updateCandidateStatus(this.data.candidateId, 'communicating');
-          }
+          wx.showLoading({ title: '更新中' });
+          this.updateCloudStatus('communicating')
+            .then(() => {
+              const nextCandidateInfo = Object.assign({}, this.data.candidateInfo, {
+                employerAgreed: true,
+              });
+              const showContact = this.canShowCandidateContact(nextCandidateInfo, 'communicating');
+              this.setData({
+                status: 'communicating',
+                candidateInfo: nextCandidateInfo,
+                candidateTitle: this.buildCandidateTitle(nextCandidateInfo),
+                ageText: nextCandidateInfo.age ? `${nextCandidateInfo.age}岁` : '未填写',
+                showContact,
+                tipText: showContact ? '温馨提示：联系时请说明来自"找龄工"小程序' : '已表达匹配意向，等待求职者同意后可查看联系方式',
+              });
+              wx.showToast({ title: '已匹配', icon: 'success' });
+            })
+            .catch((e) => wx.showToast({ title: e.message || '更新失败', icon: 'none' }))
+            .finally(() => wx.hideLoading());
         }
       },
     });
@@ -74,19 +134,15 @@ Page({
       content: '标记后该候选人将进入"暂不合适"列表',
       success: (res) => {
         if (res.confirm) {
-          this.setData({ status: 'rejected' });
-          wx.showToast({ title: '已标记', icon: 'success' });
-
-          // 延迟返回，让用户看到状态变化
-          setTimeout(() => {
-            // 通知列表页更新状态
-            const pages = getCurrentPages();
-            const prevPage = pages[pages.length - 2];
-            if (prevPage && prevPage.updateCandidateStatus) {
-              prevPage.updateCandidateStatus(this.data.candidateId, 'rejected');
-            }
-            wx.navigateBack();
-          }, 1500);
+          wx.showLoading({ title: '更新中' });
+          this.updateCloudStatus('rejected')
+            .then(() => {
+              this.setData({ status: 'rejected' });
+              wx.showToast({ title: '已标记', icon: 'success' });
+              setTimeout(() => wx.navigateBack(), 1200);
+            })
+            .catch((e) => wx.showToast({ title: e.message || '更新失败', icon: 'none' }))
+            .finally(() => wx.hideLoading());
         }
       },
     });
@@ -99,19 +155,15 @@ Page({
       content: '确认录用该候选人吗？',
       success: (res) => {
         if (res.confirm) {
-          this.setData({ status: 'hired' });
-          wx.showToast({ title: '已录用', icon: 'success' });
-
-          // 延迟返回，让用户看到状态变化
-          setTimeout(() => {
-            // 通知列表页更新状态
-            const pages = getCurrentPages();
-            const prevPage = pages[pages.length - 2];
-            if (prevPage && prevPage.updateCandidateStatus) {
-              prevPage.updateCandidateStatus(this.data.candidateId, 'hired');
-            }
-            wx.navigateBack();
-          }, 1500);
+          wx.showLoading({ title: '更新中' });
+          this.updateCloudStatus('hired')
+            .then(() => {
+              this.setData({ status: 'hired' });
+              wx.showToast({ title: '已录用', icon: 'success' });
+              setTimeout(() => wx.navigateBack(), 1200);
+            })
+            .catch((e) => wx.showToast({ title: e.message || '更新失败', icon: 'none' }))
+            .finally(() => wx.hideLoading());
         }
       },
     });

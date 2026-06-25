@@ -1,30 +1,32 @@
 .info-page {
   min-height: 100vh;
-  background: #F7FCF9;
-  padding: 16px;
+  background: #F5FBF7;
+  padding: 32rpx;
 }
 
 .page-title {
   display: block;
-  font-size: 22px;
-  font-weight: 600;
-  color: #1F2937;
-  margin-bottom: 16px;
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #111827;
+  margin-bottom: 28rpx;
 }
 
 .info-card {
-  background: #FFFFFF;
-  border-radius: 10px;
-  padding: 16px;
-  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.07);
+  border-left: 6rpx solid #10B981;
 }
 
 .info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #F3F4F6;
+  padding: 18rpx 0;
+  border-bottom: 2rpx solid #F0FDF4;
 }
 
 .info-item:last-child {
@@ -32,23 +34,27 @@
 }
 
 .info-label {
-  font-size: 15px;
+  font-size: 28rpx;
   color: #6B7280;
+  font-weight: 600;
 }
 
 .info-value {
-  font-size: 15px;
-  color: #1F2937;
+  font-size: 30rpx;
+  color: #111827;
+  font-weight: 700;
 }
 
 .tip-box {
-  background: #f1faf4;
-  border-radius: 10px;
-  padding: 16px;
+  background: #D1FAE5;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  border-left: 6rpx solid #10B981;
 }
 
 .tip-text {
-  font-size: 14px;
-  color: #3f8b62;
-  line-height: 1.5;
+  font-size: 28rpx;
+  color: #065F46;
+  line-height: 1.6;
+  font-weight: 600;
 }

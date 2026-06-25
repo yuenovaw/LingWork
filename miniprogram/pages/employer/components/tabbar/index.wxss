@@ -5,17 +5,21 @@
   bottom: 0;
   z-index: 100;
   display: flex;
+  align-items: center;
   min-height: 104rpx;
   padding-top: 8rpx;
   background: #fff;
-  border-top: 2rpx solid #e3f1e8;
+  border-top: 1rpx solid #E5E7EB;
 }
 
 .tab {
   flex: 1;
   text-align: center;
-  color: #8b8177;
-  font-size: 24rpx;
+  color: #9CA3AF;
+  font-size: 22rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .icon {
@@ -23,16 +27,34 @@
   height: 44rpx;
   line-height: 44rpx;
   margin: 0 auto 2rpx;
-  border-radius: 50%;
-  font-size: 24rpx;
-  font-weight: 800;
+  border-radius: 10rpx;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.icon-publish {
+  width: 56rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  border-radius: 14rpx;
+  background: linear-gradient(135deg, #065F46, #10B981);
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-bottom: 2rpx;
+  box-shadow: 0 4rpx 12rpx rgba(6, 95, 70, 0.38);
+}
+
+.tab-publish {
+  color: #059669;
 }
 
 .active {
-  color: #67be86;
-  font-weight: 800;
+  color: #059669;
+  font-weight: 700;
 }
 
 .active .icon {
-  background: #eef9f2;
+  background: #D1FAE5;
+  color: #059669;
 }

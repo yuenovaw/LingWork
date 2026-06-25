@@ -3,13 +3,13 @@ Page({
   data: {
     employerInfo: {
       avatar: 'male', // male 或 female
-      name: '张老板',
+      name: '未填写',
       type: '个人',
-      city: '南京',
-      phone: '138****8888',
-      verified: true,
+      city: '',
+      phone: '',
+      verified: false,
     },
-    avatarText: '张',
+    avatarText: '未',
   },
 
   onLoad() {
@@ -61,24 +61,12 @@ Page({
     }
   },
 
-  // 编辑个人资料
   onProfileEdit() {
-    wx.showModal({
-      title: '雇主资料',
-      content: `${this.data.employerInfo.name}｜${this.data.employerInfo.type}｜${this.data.employerInfo.city || '未填写城市'}`,
-      confirmText: '知道了',
-      showCancel: false,
-    });
+    wx.navigateTo({ url: '/pages/employer/company-info/index' });
   },
 
-  // 认证状态
   onVerifyTap() {
-    wx.showModal({
-      title: this.data.employerInfo.verified ? '已认证' : '认证说明',
-      content: this.data.employerInfo.verified ? '当前雇主资料已通过演示认证。' : '正式上线后，这里会接入营业执照、实名信息或人工审核。',
-      confirmText: '知道了',
-      showCancel: false,
-    });
+    wx.navigateTo({ url: '/pages/employer/verify/index' });
   },
 
   onSwitchToWorker() {
@@ -88,39 +76,15 @@ Page({
     });
   },
 
-  // 菜单项点击
   onMenuItemTap(e) {
-    const { action } = e.currentTarget.dataset;
-    const actions = {
-      company: {
-        title: '企业信息',
-        content: `${this.data.employerInfo.name}｜${this.data.employerInfo.type}｜${this.data.employerInfo.phone}`
-      },
-      security: {
-        title: '账户安全',
-        content: '当前为路演版本，手机号和联系信息仅用于演示。正式版会接入实名校验和权限保护。'
-      },
-      feedback: {
-        title: '意见反馈',
-        content: '可以先把问题记录给项目成员，正式版会接入客服和反馈表。'
-      },
-      about: {
-        title: '关于找龄工',
-        content: '找龄工帮助中老年人安心找零工，也帮助雇主更快找到合适人选。'
-      },
-      settings: {
-        title: '设置',
-        content: '当前版本已精简设置项，保留切换身份和基础资料展示。'
-      }
+    const routes = {
+      company:  '/pages/employer/company-info/index',
+      security: '/pages/employer/security/index',
+      feedback: '/pages/employer/feedback/index',
+      about:    '/pages/employer/about/index',
+      settings: '/pages/employer/settings/index',
     };
-
-    if (actions[action]) {
-      wx.showModal({
-        title: actions[action].title,
-        content: actions[action].content,
-        confirmText: '知道了',
-        showCancel: false,
-      });
-    }
+    const url = routes[e.currentTarget.dataset.action];
+    if (url) wx.navigateTo({ url });
   },
 });

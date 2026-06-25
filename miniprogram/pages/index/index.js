@@ -1,6 +1,7 @@
 Page({
   data: {
     entering: false,
+    name: "",
     phoneNumber: ""
   },
 
@@ -18,24 +19,14 @@ Page({
     });
   },
 
-  saveManualPhone(phoneNumber) {
-    wx.cloud.callFunction({
-      name: "quickstartFunctions",
-      data: {
-        type: "saveManualPhone",
-        phoneNumber,
-        next: "entry"
-      }
-    }).catch((err) => {
-      console.warn("saveManualPhone failed", err.message || err);
-    });
+  enterWithPhone(name, phoneNumber) {
+    wx.setStorageSync("pendingEntryName", name);
+    wx.setStorageSync("pendingEntryPhone", phoneNumber);
+    this.goRegister();
   },
 
-  enterWithPhone(phoneNumber) {
-    wx.setStorageSync("phoneAuthorized", true);
-    wx.setStorageSync("authorizedPhone", phoneNumber);
-    this.saveManualPhone(phoneNumber);
-    this.goRegister();
+  onNameInput(e) {
+    this.setData({ name: String(e.detail.value || "") });
   },
 
   onPhoneInput(e) {
@@ -45,15 +36,17 @@ Page({
 
   onEntryTap() {
     if (this.data.entering) return;
+    const name = String(this.data.name || "").trim();
     const phoneNumber = String(this.data.phoneNumber || "").replace(/\s+/g, "");
 
-    if (!/^1[3-9]\d{9}$/.test(phoneNumber)) {
-      wx.showToast({
-        title: "请输入正确手机号",
-        icon: "none"
-      });
+    if (name.length < 2) {
+      wx.showToast({ title: "请填写姓名", icon: "none" });
       return;
     }
-    this.enterWithPhone(phoneNumber);
+    if (!/^1[3-9]\d{9}$/.test(phoneNumber)) {
+      wx.showToast({ title: "请输入正确手机号", icon: "none" });
+      return;
+    }
+    this.enterWithPhone(name, phoneNumber);
   }
 });

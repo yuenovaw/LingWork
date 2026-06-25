@@ -1,4 +1,31 @@
 const { jobs } = require("../../utils/mockData");
+const { isLegacyDemoWorkerProfile } = require("../../utils/storage");
+const { getLocation, nearestDistrict, isInNanjing } = require("../../utils/location");
+
+function mapCloudJob(job) {
+  return {
+    id: job.id,
+    employerOpenid: job.employerOpenid || "",
+    title: job.title,
+    salary: job.salary,
+    location: job.location,
+    distance: "雇主新发布",
+    workTime: job.workTime,
+    category: job.title || "岗位",
+    ageRequirement: job.ageRequirement || "年龄可沟通",
+    headcount: job.recruitCount || 1,
+    benefits: ["雇主直招", "电话保护"],
+    description: job.description || "雇主暂未填写详细说明，可报名后进一步沟通。",
+    requirement: job.requirements || "要求可沟通。",
+    employerName: "平台雇主",
+    employerContact: "雇主",
+    contactPhone: job.phone,
+    wechatId: "",
+    status: "open",
+    urgent: false,
+    source: "cloud"
+  };
+}
 
 Page({
   data: {
@@ -9,11 +36,18 @@ Page({
     keyword: "",
     categories: ["附近工作", "今日急招", "日结工作", "轻松活", "包吃住", "不限经验"],
     activeCategory: "附近工作",
-    jobs
+    jobs,
+    loading: false
   },
 
-  onShow() {
-    const profile = wx.getStorageSync("workerProfile") || {};
+  async onShow() {
+    let profile = wx.getStorageSync("workerProfile") || {};
+    if (isLegacyDemoWorkerProfile(profile)) {
+      wx.removeStorageSync("workerProfile");
+      wx.removeStorageSync("authorizedPhone");
+      wx.removeStorageSync("phoneAuthorized");
+      profile = {};
+    }
     const displayName = profile.name || "您好";
     const city = profile.city || "南京";
     this.setData({
@@ -21,6 +55,53 @@ Page({
       profileReady: Boolean(profile.name || profile.expectedJobs),
       displayName,
       city
+    });
+    this.detectLocation();
+    await this.loadJobs();
+  },
+
+  async detectLocation() {
+    try {
+      const { lat, lng } = await getLocation();
+      this.userLat = lat;
+      this.userLng = lng;
+      if (isInNanjing(lat, lng)) {
+        const { name } = nearestDistrict(lat, lng);
+        this.setData({ city: name });
+      }
+    } catch (e) {
+      // 权限未授予或设备不支持，静默跳过
+    }
+  },
+
+  async loadJobs() {
+    this.setData({ loading: true });
+    let allJobs = jobs;
+    try {
+      const result = await wx.cloud.callFunction({
+        name: "quickstartFunctions",
+        data: {
+          type: "listEmployerJobs",
+          scope: "public"
+        }
+      });
+      const data = result.result || {};
+      if (data.success && data.jobs && data.jobs.length) {
+        const cloudJobs = data.jobs
+          .filter((job) => job.status !== "closed")
+          .map(mapCloudJob);
+        allJobs = cloudJobs.concat(jobs);
+        wx.setStorageSync("cloudWorkerJobs", cloudJobs);
+      } else {
+        wx.setStorageSync("cloudWorkerJobs", []);
+      }
+    } catch (e) {
+      allJobs = jobs;
+    }
+    this.allJobs = allJobs;
+    this.setData({
+      jobs: this.filterJobs(this.data.keyword, this.data.activeCategory),
+      loading: false
     });
   },
 
@@ -52,7 +133,8 @@ Page({
   },
 
   filterJobs(keyword, category) {
-    return jobs.filter((job) => {
+    const sourceJobs = this.allJobs || jobs;
+    return sourceJobs.filter((job) => {
       const matchKeyword = !keyword || job.title.includes(keyword) || job.category.includes(keyword) || job.location.includes(keyword);
       if (!matchKeyword) return false;
       if (category === "今日急招") return job.urgent;

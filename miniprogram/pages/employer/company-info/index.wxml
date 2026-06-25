@@ -5,19 +5,19 @@
   <view class="info-card">
     <view class="info-item">
       <text class="info-label">雇主类型</text>
-      <text class="info-value">个人</text>
+      <text class="info-value">{{employerInfo.type}}</text>
     </view>
     <view class="info-item">
       <text class="info-label">所在城市</text>
-      <text class="info-value">南京</text>
+      <text class="info-value">{{employerInfo.city}}</text>
     </view>
     <view class="info-item">
       <text class="info-label">联系电话</text>
-      <text class="info-value">138****8888</text>
+      <text class="info-value">{{employerInfo.phone}}</text>
     </view>
   </view>
 
   <view class="tip-box">
-    <text class="tip-text">💡 如需修改企业信息，请前往"编辑个人资料"页面</text>
+    <text class="tip-text">如需修改企业信息，请前往"编辑个人资料"页面</text>
   </view>
 </view>

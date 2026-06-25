@@ -48,7 +48,12 @@ function remove(key) {
  */
 function clear() {
   try {
-    wx.clearStorageSync();
+    const info = wx.getStorageInfoSync();
+    (info.keys || []).forEach((key) => {
+      if (key.startsWith(STORAGE_PREFIX)) {
+        wx.removeStorageSync(key);
+      }
+    });
     return true;
   } catch (e) {
     console.error('清空失败:', e);
@@ -74,10 +79,21 @@ const userStorage = {
   setEmployerInfo: (info) => set('employerInfo', info),
 };
 
+// 旧版演示 profile 检测（无 profileVersion 字段的硬编码示例数据）
+function isLegacyDemoWorkerProfile(profile) {
+  if (!profile || typeof profile !== "object") return false;
+  if (profile.profileVersion) return false;
+  return String(profile.name || "") === "王叔叔" &&
+    String(profile.age || "") === "62" &&
+    String(profile.city || "").includes("南京") &&
+    String(profile.expectedJobs || "").includes("门卫");
+}
+
 module.exports = {
   set,
   get,
   remove,
   clear,
   userStorage,
+  isLegacyDemoWorkerProfile,
 };

@@ -5,7 +5,7 @@
   <view class="menu-list">
     <view class="menu-item">
       <text class="menu-label">手机号</text>
-      <text class="menu-value">138****8888</text>
+      <text class="menu-value">{{phoneText}}</text>
     </view>
   </view>
 
