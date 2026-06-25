@@ -1,10 +1,11 @@
 <!--AI发布聊天页-->
 <view class="ai-chat-page">
   <!-- 聊天消息区域 -->
-  <scroll-view class="chat-messages" scroll-y scroll-into-view="msg-{{messages.length-1}}">
+  <scroll-view class="chat-messages" scroll-y scroll-into-view="{{scrollIntoView}}" scroll-with-animation>
     <view
       wx:for="{{messages}}"
       wx:key="index"
+      id="{{item.id}}"
       class="message {{item.role === 'user' ? 'user-msg' : 'ai-msg'}}"
     >
       <view class="message-content">{{item.content}}</view>
@@ -13,9 +14,30 @@
     <!-- 加载中 -->
     <view wx:if="{{isLoading}}" class="message ai-msg">
       <view class="message-content loading">
-        <text class="loading-text">AI正在思考中</text>
+        <text class="loading-text">AI 正在整理岗位信息</text>
       </view>
     </view>
+
+    <view class="draft-card">
+      <view class="draft-head">
+        <text class="draft-title">岗位草稿</text>
+        <text class="draft-status {{draftReady ? 'ready' : ''}}">{{draftReady ? '可发布' : '待补充'}}</text>
+      </view>
+      <view class="draft-row"><text>岗位</text><text>{{draft.title || '未填写'}}</text></view>
+      <view class="draft-row"><text>薪资</text><text>{{draft.salary || '未填写'}}</text></view>
+      <view class="draft-row"><text>地点</text><text>{{draft.location || '未填写'}}</text></view>
+      <view class="draft-row"><text>时间</text><text>{{draft.workTime || '未填写'}}</text></view>
+      <view class="draft-row"><text>人数</text><text>{{draft.recruitCount || '未填写'}}</text></view>
+      <view class="draft-row"><text>年龄</text><text>{{draft.ageRequirement || '可沟通'}}</text></view>
+      <view class="draft-row"><text>电话</text><text>{{draft.phone ? '已填写' : '未填写'}}</text></view>
+      <view class="draft-desc">{{draft.requirements || '请继续补充岗位要求。'}}</view>
+      <view wx:if="{{missingLabels.length}}" class="missing-line">还缺：{{missingText}}</view>
+      <view class="draft-actions">
+        <button bindtap="editManual">手动完善</button>
+      </view>
+    </view>
+
+    <view id="chat-bottom" class="chat-bottom"></view>
   </scroll-view>
 
   <!-- 输入区域 -->
@@ -28,14 +50,14 @@
         bindinput="onInput"
         bindconfirm="onSend"
       />
-      <view class="send-btn {{inputContent.trim() ? 'active' : ''}}" bindtap="onSend">
+      <view class="send-btn {{canSend ? 'active' : ''}}" bindtap="onSend">
         发送
       </view>
     </view>
   </view>
 
   <!-- 确认发布按钮 -->
-  <view class="confirm-btn" bindtap="onConfirmJob">
-    确认发布
+  <view class="confirm-btn {{draftReady ? 'ready' : ''}}" bindtap="onConfirmJob">
+    {{submitting ? '发布中...' : (draftReady ? '确认发布' : '继续补充信息')}}
   </view>
 </view>

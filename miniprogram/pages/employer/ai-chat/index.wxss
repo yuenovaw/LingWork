@@ -12,7 +12,7 @@
 .chat-messages {
   flex: 1;
   padding: 16px;
-  padding-bottom: 80px;
+  padding-bottom: 150px;
 }
 
 .message {
@@ -53,6 +53,98 @@
 .loading-text {
   font-size: 15px;
   color: #6B7280;
+}
+
+.draft-card {
+  margin: 8px 0 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #FFFFFF;
+  border: 1px solid #D8F0E2;
+  box-shadow: 0 6px 20px rgba(14, 120, 78, 0.08);
+}
+
+.draft-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.draft-title {
+  color: #1F2937;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.draft-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: #8A6A20;
+  background: #FFF4D7;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.draft-status.ready {
+  color: #0B7A4B;
+  background: #DDF7EA;
+}
+
+.draft-row {
+  min-height: 28px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: #667085;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.draft-row text:last-child {
+  max-width: 68%;
+  color: #1F2937;
+  font-weight: 700;
+  text-align: right;
+}
+
+.draft-desc {
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 10px;
+  color: #456050;
+  background: #F1FAF5;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.missing-line {
+  margin-top: 10px;
+  color: #8A6A20;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.draft-actions {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.draft-actions button {
+  width: auto;
+  min-width: 96px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 17px;
+  background: #EAF8F0;
+  color: #169B62;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.chat-bottom {
+  height: 1px;
 }
 
 /* 输入区域 */
@@ -115,4 +207,9 @@
   font-weight: 500;
   color: #FFFFFF;
   box-shadow: 0 2px 8px rgba(103, 190, 134, 0.3);
+}
+
+.confirm-btn:not(.ready) {
+  background: #A8DDBB;
+  box-shadow: none;
 }

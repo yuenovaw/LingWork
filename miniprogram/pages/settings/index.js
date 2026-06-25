@@ -58,11 +58,8 @@ Page({
   },
 
   callService() {
-    wx.showModal({
-      title: '联系客服',
-      content: '测试版本暂未接入真实客服。后续可接微信客服、电话客服或家属协助入口。',
-      confirmText: '知道了',
-      showCancel: false,
+    wx.navigateTo({
+      url: '/pages/employer/feedback/index?from=workerSettings',
     });
   },
 });

@@ -39,7 +39,9 @@ Page({
   },
 
   onContact() {
-    wx.showToast({ title: '客服功能开发中', icon: 'none' });
+    wx.navigateTo({
+      url: '/pages/employer/feedback/index?from=employerSettings',
+    });
   },
 
   onLogout() {

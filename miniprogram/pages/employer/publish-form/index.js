@@ -18,6 +18,12 @@ Page({
   onLoad() {
     // 加载雇主信息，自动填充联系电话
     const employerData = wx.getStorageSync('employerData');
+    const aiJobDraft = wx.getStorageSync('aiJobDraft') || {};
+    if (aiJobDraft && Object.keys(aiJobDraft).length) {
+      this.setData({
+        formData: Object.assign({}, this.data.formData, aiJobDraft),
+      });
+    }
     if (employerData && employerData.phone) {
       this.setData({
         'formData.phone': employerData.phone,
@@ -132,6 +138,7 @@ Page({
         wx.showToast({ title: data.errorMessage || '发布失败', icon: 'none' });
         return;
       }
+      wx.removeStorageSync('aiJobDraft');
       wx.showToast({ title: '发布成功', icon: 'success' });
       setTimeout(() => {
         wx.redirectTo({ url: '/pages/employer/jobs/index' });
